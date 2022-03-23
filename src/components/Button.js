@@ -1,10 +1,10 @@
 import styled from "styled-components"
 
 const Button = styled.button`
-    width: 429px;
+
+    width: 100%;
     height: 65px;
-    left: 956px;
-    top: 473px;
+
     background-color: #1877F2;
     border-radius: 6px;
     border: none;

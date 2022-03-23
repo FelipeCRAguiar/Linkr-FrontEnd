@@ -8,7 +8,7 @@ const StyledLink = styled(Link)`
     line-height: 24px;
     text-decoration-line: underline;
     color: #FFFFFF;
-    margin-top: 18px;
+    margin-top: 23px;
 `
 
 export default StyledLink

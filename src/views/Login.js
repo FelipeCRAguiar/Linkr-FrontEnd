@@ -24,7 +24,7 @@ export default function Login() {
             <LinkrMotto>
                 <Linkr>linkr</Linkr>
                 <Motto>
-                    <span>save, share and discover the best links on the web</span>
+                    <span>save, share and discover<br/>the best links on the web</span>
                 </Motto>
             </LinkrMotto>
             <ContainerLogin>
@@ -40,12 +40,17 @@ export default function Login() {
 }
 
 const Container = styled.div`
+
+    width: 100%;
+    height: 100vh;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
 `
 
 const Linkr = styled.p`
+
     font-family: 'Passion One';
     font-weight: 700;
     font-size: 106px;
@@ -55,7 +60,7 @@ const Linkr = styled.p`
 `
 
 const Motto = styled.div`
-    width: 442px;
+    width: 100%;
     height: 128px;
 
     font-family: 'Oswald';
@@ -70,6 +75,7 @@ const ContainerLogin = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 1024px;
-    margin-right: 55px;
+
+    width: 29%;
+    height: 100%;
 `
