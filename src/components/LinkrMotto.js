@@ -1,8 +1,12 @@
 import styled from "styled-components"
 
 const LinkrMotto = styled.div`
-    width: 905px;
-    height: 1024px;
+
+    box-sizing: border-box;
+
+    width: 71%;
+    height: 100%;
+
     left: 0px;
     top: 0px;
     background-color: #151515;
@@ -10,7 +14,9 @@ const LinkrMotto = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+
+    padding: 0 150px;
 `
 
 export default LinkrMotto
