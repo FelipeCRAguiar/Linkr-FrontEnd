@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
@@ -20,7 +21,17 @@ export default function Login() {
         e.preventDefault()
         setIsDisabled(true)
         navigate('/')
-        setAndPersistToken(response.data.token)
+        
+        const promise = axios.post('http://localhost:4000/login', formData)
+        promise.then(response => {
+            setIsDisabled(false)
+            navigate('/home');
+            setAndPersistToken(response.data.token);
+        })
+        promise.catch(() => {
+            setIsDisabled(false)
+            return alert('Aconteceu um erro, tente novamente!')
+        })
     }
 
     return (
@@ -32,7 +43,7 @@ export default function Login() {
                 </Motto>
             </LinkrMotto>
             <ContainerLogin>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Input type='email' placeholder="email" name="email" value={formData.email} onChange={handleChange} disabled={isDisabled}/>
                     <Input type='password' placeholder="password" name="password" value={formData.password} onChange={handleChange} disabled={isDisabled}/>
                     <Button type="submit" disabled={isDisabled}>Log In</Button>
