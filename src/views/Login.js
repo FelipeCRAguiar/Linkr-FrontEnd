@@ -15,7 +15,7 @@ export default function Login() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        setIsDisabled(true)
+        // setIsDisabled(true)
         navigate('/')
     }
 
@@ -28,10 +28,10 @@ export default function Login() {
                 </Motto>
             </LinkrMotto>
             <ContainerLogin>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Input type='email' placeholder="email" name="email" value={formData.email} onChange={handleChange} disabled={isDisabled}/>
                     <Input type='password' placeholder="password" name="password" value={formData.password} onChange={handleChange} disabled={isDisabled}/>
-                    <Button type="submit" disabled={isDisabled}>Log In</Button>
+                    <Button type="submit" /*disabled={isDisabled}*/ onClick={() => navigate("/")}>Log In</Button> 
                 </Form>
                 <StyledLink to='/'>First time? Create an account!</StyledLink>
             </ContainerLogin>
