@@ -17,6 +17,13 @@ const LinkrMotto = styled.div`
     align-items: flex-start;
 
     padding: 0 150px;
+
+    @media (max-width: 375px) {
+        padding: 0px;
+        width: 100%;
+        align-items: center;
+        height: 30%;
+    }
 `
 
 export default LinkrMotto
