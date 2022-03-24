@@ -18,6 +18,10 @@ const Input = styled.input`
 
     padding: 0 20px;
 
+    @media (max-width: 375px) {
+        height: 55px;
+        font-size: 22px;
+    }
 `
 
 export default Input

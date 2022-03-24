@@ -62,6 +62,10 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 375px) {
+        flex-direction: column;
+    }
 `
 
 const Linkr = styled.p`
@@ -72,6 +76,10 @@ const Linkr = styled.p`
     line-height: 117px;
     letter-spacing: 0.05em;
     color: #FFFFFF;
+
+    @media (max-width: 375px) {
+        font-size: 76px;
+    }
 `
 
 const Motto = styled.div`
@@ -83,6 +91,12 @@ const Motto = styled.div`
     font-size: 43px;
     line-height: 64px;
     color: #FFFFFF;
+
+    @media (max-width: 375px) {
+        font-size: 23px;
+        line-height: 34px;
+        width: 70%;
+    }
 `
 
 const ContainerLogin = styled.div`
@@ -93,4 +107,10 @@ const ContainerLogin = styled.div`
 
     width: 29%;
     height: 100%;
+
+    @media (max-width: 375px) {
+        width: 100%;
+        justify-content: flex-start;
+        padding-top: 40px;
+    }
 `

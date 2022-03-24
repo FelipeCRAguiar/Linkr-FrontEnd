@@ -9,6 +9,10 @@ const Form = styled.form`
     justify-content: center;
     align-items: center;
     gap: 13px;
+
+    @media (max-width: 375px) {
+        width: 90%;
+    }
 `
 
 export default Form

@@ -14,6 +14,11 @@ const Button = styled.button`
     font-size: 27px;
     line-height: 40px;
     color: #FFFFFF;
+
+    @media (max-width: 375px) {
+        height: 55px;
+        font-size: 22px;
+    }
 `
 
 export default Button

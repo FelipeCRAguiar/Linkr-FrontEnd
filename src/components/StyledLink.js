@@ -9,6 +9,11 @@ const StyledLink = styled(Link)`
     text-decoration-line: underline;
     color: #FFFFFF;
     margin-top: 23px;
+
+    @media (max-width: 375px) {
+        font-size: 17px;
+        line-height: 20px;
+    }
 `
 
 export default StyledLink
