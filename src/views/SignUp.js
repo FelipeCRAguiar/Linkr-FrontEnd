@@ -1,26 +1,44 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { useContext } from "react"
-import AuthContext from "../contexts/AuthContext"
 import { Button, Form, Input, LinkrMotto, StyledLink } from "../components"
+import { signUp } from "../services/signup"
 
 
-export default function Login() {
+export default function SignUp() {
     const [isDisabled, setIsDisabled] = useState(false)
-    const [formData, setFormData] = useState({email: '', password: ''})
-    const {setAndPersistToken} = useContext(AuthContext) 
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        username: '',
+        picture: ''
+      });
     const navigate = useNavigate()
 
     function handleChange(e) {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         setIsDisabled(true)
-        navigate('/')
-        setAndPersistToken(response.data.token)
+        try {
+            await signUp({...formData})
+            navigate('/')
+        }catch(error){
+            console.log(error.status)
+            if(error.status === 422){
+                alert("All fields are required");
+            }
+
+            if(error.status === 409){
+                alert("This username already exists")
+            }
+
+            if(error.status === 500){
+                alert("Sorry, an internal error has occurred")
+            }
+        }
     }
 
     return (
@@ -28,33 +46,30 @@ export default function Login() {
             <LinkrMotto>
                 <Linkr>linkr</Linkr>
                 <Motto>
-                    <span>save, share and discover<br/>the best links on the web</span>
+                    <span>save, share and discover the best links on the web</span>
                 </Motto>
             </LinkrMotto>
             <ContainerLogin>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Input type='email' placeholder="email" name="email" value={formData.email} onChange={handleChange} disabled={isDisabled}/>
                     <Input type='password' placeholder="password" name="password" value={formData.password} onChange={handleChange} disabled={isDisabled}/>
-                    <Button type="submit" disabled={isDisabled}>Log In</Button>
+                    <Input type='text' placeholder="username" name="username" value={formData.username} onChange={handleChange} disabled={isDisabled}/>
+                    <Input type='url' placeholder="picture url" name="picture" value={formData.picture} onChange={handleChange} disabled={isDisabled}/>
+                    <Button type="submit" disabled={isDisabled}>Sign Up</Button>
                 </Form>
-                <StyledLink to='/sign-up'>First time? Create an account!</StyledLink>
+                <StyledLink to='/'>Switch back to log in</StyledLink>
             </ContainerLogin>
         </Container>
     )
 }
 
 const Container = styled.div`
-
-    width: 100%;
-    height: 100vh;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
 `
 
 const Linkr = styled.p`
-
     font-family: 'Passion One';
     font-weight: 700;
     font-size: 106px;
@@ -64,7 +79,7 @@ const Linkr = styled.p`
 `
 
 const Motto = styled.div`
-    width: 100%;
+    width: 442px;
     height: 128px;
 
     font-family: 'Oswald';
@@ -79,7 +94,6 @@ const ContainerLogin = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    width: 29%;
-    height: 100%;
+    height: 1024px;
+    margin-right: 55px;
 `
