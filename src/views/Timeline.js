@@ -1,6 +1,7 @@
 import React from "react";
 import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
+import Posts from "../components/Posts.js";
 
 export default function Timeline() {
   return (
@@ -10,6 +11,7 @@ export default function Timeline() {
         <NewPost>
           <CreatePost />
         </NewPost>
+        <Posts />
       </Content>
     </Container>
   );

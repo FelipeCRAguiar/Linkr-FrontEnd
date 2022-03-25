@@ -25,7 +25,7 @@ export default function Login() {
     const promise = axios.post("http://localhost:4000/login", formData);
     promise.then((response) => {
       setIsDisabled(false);
-      navigate("/home");
+      navigate("/timeline");
       setAndPersistToken(response.data.token);
     });
     promise.catch(() => {
