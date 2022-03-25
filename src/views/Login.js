@@ -2,12 +2,15 @@ import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import { useContext } from "react"
+import AuthContext from "../contexts/AuthContext"
 import { Button, Form, Input, LinkrMotto, StyledLink } from "../components"
 
 
 export default function Login() {
     const [isDisabled, setIsDisabled] = useState(false)
     const [formData, setFormData] = useState({email: '', password: ''})
+    const {setAndPersistToken} = useContext(AuthContext) 
     const navigate = useNavigate()
 
     function handleChange(e) {
@@ -17,10 +20,13 @@ export default function Login() {
     function handleSubmit(e) {
         e.preventDefault()
         setIsDisabled(true)
+        navigate('/')
+        
         const promise = axios.post('http://localhost:4000/login', formData)
         promise.then(response => {
             setIsDisabled(false)
             navigate('/home');
+            setAndPersistToken(response.data.token);
         })
         promise.catch(() => {
             setIsDisabled(false)
