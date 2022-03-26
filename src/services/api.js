@@ -1,36 +1,42 @@
 import axios from "axios";
 
-const methods = [
-    'get',
-    'post',
-    'put',
-    'delete'
-  ];
+const methods = ["get", "post", "put", "delete"];
 
 const axiosWrapper = {};
 
-const queryStringBuilder = query => Object.keys(query).length ? '?' + Object.keys(query).map(k => `${k}=${query[k]}`).join('&') : '';
+const queryStringBuilder = (query) =>
+  Object.keys(query).length
+    ? "?" +
+      Object.keys(query)
+        .map((k) => `${k}=${query[k]}`)
+        .join("&")
+    : "";
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000'
+  baseURL: "http://localhost:4000",
 });
 
 for (const method of methods) {
-  axiosWrapper[method] = async function (route, body, query = {}, complete = false) {
+  axiosWrapper[method] = async function (
+    route,
+    body,
+    query = {},
+    complete = false
+  ) {
     try {
       const url = `${route}${queryStringBuilder(query)}`;
 
       const request = await instance({
         method,
         url,
-        data: body
+        data: body,
       });
 
       return complete ? request : request.data;
     } catch (err) {
       return Promise.reject(err.response);
     }
-  }
+  };
 }
 
 export default axiosWrapper;

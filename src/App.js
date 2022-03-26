@@ -9,8 +9,8 @@ import AuthContext from "./contexts/AuthContext";
 import { useState } from "react";
 
 export default function App() {
-  const tokenOnLocalStorage = localStorage.getItem("token");
   const [token, setToken] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   function setAndPersistToken(token) {
     setToken(token);
@@ -18,7 +18,9 @@ export default function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ token, setToken, setAndPersistToken }}>
+    <AuthContext.Provider
+      value={{ token, setToken, setAndPersistToken, avatar, setAvatar }}
+    >
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />

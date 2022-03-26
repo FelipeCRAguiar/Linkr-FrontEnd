@@ -1,18 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import AuthContext from "../contexts/AuthContext.js";
 
 export default function CreatePost() {
-  const [avatar, setAvatar] = useState("");
+  const { avatar } = useContext(AuthContext);
   const [postURL, setPostURL] = useState("");
   const [postDescription, setPostDescription] = useState("");
   const [isPublishing, setIsPublishing] = useState(false);
+  const { token } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  function publishPost(event) {
+    setIsPublishing(true);
+    event.preventDefault();
+
+    if (postURL === "" || postURL === null) {
+      alert("Please, place the link you would like to share!");
+      return;
+    }
+
+    function generateConfig() {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      return config;
+    }
+
+    const config = generateConfig();
+
+    const promise = axios.post(
+      "http://localhost:4000/post",
+      {
+        text: postDescription,
+        link: postURL,
+      },
+      config
+    );
+    promise
+      .then((res) => {
+        setIsPublishing(false);
+        navigate(0);
+      })
+      .catch((err) => {
+        setIsPublishing(false);
+        alert("There was an error posting your link");
+        alert(err.request.response.message);
+      });
+  }
 
   return (
     <CreatePostBox>
       <UserAvatar src={avatar} />
       <InfoBox>
         <p>What are you going to share today?</p>
-        <form>
+        <form onSubmit={publishPost}>
           <LinkInput
             type="url"
             name="postURL"

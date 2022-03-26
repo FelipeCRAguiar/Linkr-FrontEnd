@@ -11,6 +11,7 @@ export default function Login() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { setAndPersistToken } = useContext(AuthContext);
+  const { setAvatar } = useContext(AuthContext);
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -27,6 +28,7 @@ export default function Login() {
       setIsDisabled(false);
       navigate("/timeline");
       setAndPersistToken(response.data.token);
+      setAvatar(response.data.image);
     });
     promise.catch(() => {
       setIsDisabled(false);
