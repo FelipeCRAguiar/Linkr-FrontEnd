@@ -22,19 +22,10 @@ export default function CreatePost() {
       return;
     }
 
-    function generateConfig() {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      return config;
-    }
-
-    const config = generateConfig();
+    const config = { headers: { Authorization: `Bearer ${token}` } };
 
     const promise = axios.post(
-      "http://localhost:4000/post",
+      "http://localhost:4000/posts",
       {
         text: postDescription,
         link: postURL,
