@@ -11,6 +11,7 @@ import { useState } from "react";
 export default function App() {
   const [token, setToken] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [userId, setUserId] = useState("");
 
   function setAndPersistToken(token) {
     setToken(token);
@@ -19,7 +20,15 @@ export default function App() {
 
   return (
     <AuthContext.Provider
-      value={{ token, setToken, setAndPersistToken, avatar, setAvatar }}
+      value={{
+        token,
+        setToken,
+        setAndPersistToken,
+        avatar,
+        setAvatar,
+        userId,
+        setUserId,
+      }}
     >
       <BrowserRouter>
         <Routes>
