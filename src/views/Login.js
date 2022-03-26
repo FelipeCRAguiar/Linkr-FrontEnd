@@ -10,7 +10,7 @@ import { Button, Form, Input, LinkrMotto, StyledLink } from "../components";
 export default function Login() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const { setAndPersistToken, setAvatar, setUserId } = useContext(AuthContext);
+  const { setAndPersistToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -26,9 +26,11 @@ export default function Login() {
     promise.then((response) => {
       setIsDisabled(false);
       navigate("/timeline");
-      setAndPersistToken(response.data.token);
-      setAvatar(response.data.image);
-      setUserId(response.data.id);
+      setAndPersistToken(
+        response.data.token,
+        response.data.image,
+        response.data.id
+      );
     });
     promise.catch(() => {
       setIsDisabled(false);
