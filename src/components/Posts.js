@@ -10,6 +10,7 @@ export default function Posts() {
 
     const {token} = useContext(AuthContext);
     const [posts, setPosts] = useState(null);
+    const [error, setError] = useState(false);
 
     const config = {headers: {"Authorization": `Bearer ${token}`}};
 
@@ -21,8 +22,11 @@ export default function Posts() {
             console.log(response.data)
             setPosts(response.data);
         })
-        promise.catch(console.log('erro'));
+        promise.catch(
+            console.log(error)
+            );
     }, []);
+
 
     while(posts === null) {
         return (
@@ -32,33 +36,47 @@ export default function Posts() {
         )
     }
 
-    return (
+    if(posts.length === 0) {
+        return (
+            <Loading>
+            <h1>There are no posts yet</h1>
+            </Loading>
+        )
+    } else if (error) {
+        return (
+            <Loading>
+            <h1>An error occured while trying to fetch the posts, please refresh the page</h1>
+            </Loading>
+        )
+    } else {
+        return (
 
-        posts.map(post => (
-            <Container key={post.id}>
-            <ProfilePicContainer>
-                <img alt="pelé" src={post.image}/>
-                <HeartOutline color={'#FFFFFF'} height="20px" width="20px"/>
-                <p>20 likes</p>
-            </ProfilePicContainer>
-            <Content>
-                <h1>{post.username}</h1>
-                <p>{post.text}</p>
-                <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
-                    <TextsLink>
-                        <h2>{post.title}</h2>
-                        <h3>{post.description}</h3>
-                        <h4>{post.link}</h4>
-                    </TextsLink>
-                    <div>
-                        <img alt="pelé" src={post.linkImage}/>
-                    </div>
-                </LinkDiv>
-            </Content>
-        </Container>
-        ))
-        
-    )
+            posts.map(post => (
+                <Container key={post.id}>
+                <ProfilePicContainer>
+                    <img alt="pelé" src={post.image}/>
+                    <HeartOutline color={'#FFFFFF'} height="20px" width="20px"/>
+                    <p>20 likes</p>
+                </ProfilePicContainer>
+                <Content>
+                    <h1>{post.username}</h1>
+                    <p>{post.text}</p>
+                    <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
+                        <TextsLink>
+                            <h2>{post.title}</h2>
+                            <h3>{post.description}</h3>
+                            <h4>{post.link}</h4>
+                        </TextsLink>
+                        <div>
+                            <img alt="pelé" src={post.linkImage}/>
+                        </div>
+                    </LinkDiv>
+                </Content>
+            </Container>
+            ))
+            
+        )
+    }
 }
 
 
@@ -216,5 +234,9 @@ const Loading = styled.div`
     display: flex;
     justify-content: center;
     align-items: center; 
+
+    h1{
+        color: white;
+    }
 
 `
