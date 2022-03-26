@@ -5,7 +5,7 @@ import axios from "axios";
 import AuthContext from "../contexts/AuthContext.js";
 
 export default function CreatePost() {
-  const [avatar] = useState("");
+  const { avatar } = useContext(AuthContext);
   const [postURL, setPostURL] = useState("");
   const [postDescription, setPostDescription] = useState("");
   const [isPublishing, setIsPublishing] = useState(false);

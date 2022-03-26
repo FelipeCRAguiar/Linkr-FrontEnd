@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { IoChevronDown } from "react-icons/io5";
+import AuthContext from "../contexts/AuthContext.js";
 
-export default function TopBar() {
-  const [avatar] = useState("");
+export default function Header() {
+  const { avatar } = useContext(AuthContext);
 
   return (
     <Top>
