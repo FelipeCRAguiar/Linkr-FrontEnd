@@ -44,7 +44,7 @@ const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 100;
+  z-index: 2;
   @media (max-width: 413) {
     width: 100%;
     position: fixed;
