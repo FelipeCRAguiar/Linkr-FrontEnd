@@ -5,7 +5,7 @@ import Login from "./views/Login";
 import SignUp from "./views/SignUp";
 import Header from "./views/Header";
 import Timeline from "./views/Timeline";
-import AuthContext from "./contexts/AuthContext";
+import { AuthContext } from "./contexts/Auth";
 import { useState } from "react";
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ token, setToken, setAndPersistToken }}>
+    // <AuthContext.Provider value={{ token, setToken, setAndPersistToken }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -26,6 +26,6 @@ export default function App() {
           <Route path="/timeline" element={[<Header />, <Timeline />]} />
         </Routes>
       </BrowserRouter>
-    </AuthContext.Provider>
+    // </AuthContext.Provider>
   );
 }

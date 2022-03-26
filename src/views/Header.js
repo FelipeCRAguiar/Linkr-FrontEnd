@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { IoChevronDown } from "react-icons/io5";
+import { Button } from "../components";
+import ArrowButton from "../components/ArrowButton";
+
+import { AuthContext } from "../contexts/Auth.js";
 
 export default function TopBar() {
   const [avatar, setAvatar] = useState("");
@@ -14,7 +17,8 @@ export default function TopBar() {
         </StyledLink>
       </Logo>
       <UserBox>
-        <IoChevronDown size="1.8em" />
+        <ArrowButton>
+        </ArrowButton>
         <UserAvatar src={avatar} />
       </UserBox>
     </Top>
@@ -94,4 +98,7 @@ const StyledLink = styled(Link)`
   &:active {
     text-decoration: none;
   }
+`;
+const Menu = styled.div`
+  
 `;

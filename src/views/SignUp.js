@@ -11,7 +11,7 @@ export default function SignUp() {
     email: "",
     password: "",
     username: "",
-    picture: "",
+    image: "",
   });
   const navigate = useNavigate();
 
@@ -20,8 +20,10 @@ export default function SignUp() {
   }
 
   async function handleSubmit(e) {
+
     e.preventDefault();
     setIsDisabled(true);
+    console.log();
     try {
       await signUp({ ...formData });
       navigate("/");
@@ -78,7 +80,7 @@ export default function SignUp() {
           <Input
             type="url"
             placeholder="picture url"
-            name="picture"
+            name="image"
             value={formData.picture}
             onChange={handleChange}
             disabled={isDisabled}

@@ -1,17 +1,22 @@
 import React from "react";
 import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
-import Posts from "../components/Posts.js";
+
+import { AuthContext } from "../contexts/Auth.js";
 
 export default function Timeline() {
+  const { trigger, setTrigger } = React.useContext(AuthContext);
+  
+  console.log(trigger);
+  
   return (
     <Container>
       <Content>
+        {trigger &&  <LogoutButton>Logout</LogoutButton>}
         <PageTitle>timeline</PageTitle>
         <NewPost>
           <CreatePost />
         </NewPost>
-        <Posts />
       </Content>
     </Container>
   );
@@ -23,7 +28,8 @@ const Container = styled.div`
   margin-top: 70px;
   display: flex;
   min-height: calc(100vh - 70px);
-  justify-content: center;
+  justify-content: center; 
+  position: absolute;
 `;
 
 const PageTitle = styled.h2`
@@ -54,4 +60,22 @@ const NewPost = styled.div`
   @media (max-width: 413) {
     width: 100%;
   }
+`;
+const LogoutButton = styled.div`
+  width: 150px;
+  height: 47px;
+  position: absolute;
+  background-color: #171717;
+  border-bottom-left-radius: 20px;
+  color: #FFFFFF;
+  font-family: 'Lato';
+  font-size: 17px;
+  
+  
+  display: ${props => props.triggered ? "none" : "inherit"};
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
