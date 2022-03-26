@@ -13,9 +13,13 @@ export default function App() {
   const [avatar, setAvatar] = useState("");
   const [userId, setUserId] = useState("");
 
-  function setAndPersistToken(token) {
+  function setAndPersistToken(token, avatar, userId) {
     setToken(token);
     localStorage.setItem("token", token);
+    setAvatar(avatar);
+    localStorage.setItem("avatar", avatar);
+    setUserId(userId);
+    localStorage.setItem("userId", userId);
   }
 
   return (
