@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { IoChevronDown } from "react-icons/io5";
 
 export default function TopBar() {
-  const [avatar, setAvatar] = useState("");
+  const [avatar] = useState("");
 
   return (
     <Top>

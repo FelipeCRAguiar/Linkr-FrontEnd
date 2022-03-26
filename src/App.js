@@ -9,7 +9,6 @@ import AuthContext from "./contexts/AuthContext";
 import { useState } from "react";
 
 export default function App() {
-  const tokenOnLocalStorage = localStorage.getItem("token");
   const [token, setToken] = useState("");
 
   function setAndPersistToken(token) {
