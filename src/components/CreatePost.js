@@ -25,7 +25,7 @@ export default function CreatePost() {
     const config = { headers: { Authorization: `Bearer ${token}` } };
 
     const promise = axios.post(
-      "http://localhost:4000/post",
+      "http://localhost:4000/posts",
       {
         text: postDescription,
         link: postURL,

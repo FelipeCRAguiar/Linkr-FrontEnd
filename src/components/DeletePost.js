@@ -67,7 +67,7 @@ export default function DeletePost({ post }) {
 function deletePost(post, setIsOpen, token) {
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const promise = axios.delete(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${post.id}`,
+    `http://localhost:4000/posts/${post.id}`,
     config
   );
   promise
