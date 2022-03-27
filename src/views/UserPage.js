@@ -28,7 +28,7 @@ export default function UserPage() {
       <Content>
         <PageTitle>
           <UserImage src={user.image}/>
-          <span>{user.name}'s posts</span>
+          <span>{user.username}'s posts</span>
         </PageTitle>
         <UserPosts id={id}/>
       </Content>

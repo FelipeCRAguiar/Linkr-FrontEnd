@@ -58,12 +58,12 @@ export default function Posts() {
     return posts.map((post) => (
       <Container key={post.id}>
         <ProfilePicContainer>
-          <img alt="pelé" src={post.image} />
+          <img alt="pelé" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}}/>
           <HeartOutline color={"#FFFFFF"} height="20px" width="20px" />
           <p>20 likes</p>
         </ProfilePicContainer>
         <Content>
-          <h1>{post.username}</h1>
+          <h1 onClick={() => {navigate(`/user/${post.userId}`)}}>{post.username}</h1>
           {post.userId === userId ? <DeletePost post={post} /> : null}
           <p>{post.text}</p>
           <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
