@@ -10,20 +10,21 @@ import { useNavigate } from "react-router-dom";
 export default function UserPosts(props) {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
-  const [error] = useState(false);
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const [error, setError] = useState(false);
   const navigate = useNavigate()
 
   useEffect(() => {
-    const config = { headers: { Authorization: `Bearer ${token}` } };
     const promise = axios.get(`http://localhost:4000/user/${props.id}`, config);
 
     promise.then((response) => {
-      console.log(response.data);
       setPosts(response.data);
     });
-    promise.catch(console.log(error));
-    console.log(userId);
-  }, [error, token, userId]);
+    promise.catch(() => {
+      console.log(error)
+      setError(true)
+    }) 
+  }, [error, token, userId, posts]);
 
   while (posts === null) {
     return (
@@ -61,7 +62,12 @@ export default function UserPosts(props) {
       <Container key={post.id}>
         <ProfilePicContainer>
           <img alt="pelé" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}}/>
-          <HeartOutline color={"#FFFFFF"} height="20px" width="20px" />
+          {post.likes.find(like => like.userId.toString() === userId) 
+          ? 
+            <HeartOutline onClick={()=> likePost(post.id, post.likes)} color={"#FFFFFF"} height="20px" width="20px" />
+          :
+            <Heart onClick={()=> likePost(post.id, post.likes)} color={"#ef2929"} height="20px" width="20px" />
+          }
           <p>20 likes</p>
         </ProfilePicContainer>
         <Content>
