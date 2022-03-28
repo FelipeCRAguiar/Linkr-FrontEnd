@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { HeartOutline } from "react-ionicons";
+import { HeartOutline, Heart } from "react-ionicons";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import DeletePost from "../components/DeletePost.js";
+import EditPost from "../components/EditPost.js";
 import { useNavigate } from "react-router-dom";
 
 export default function UserPosts(props) {
