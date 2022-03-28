@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { HeartOutline, Heart } from "react-ionicons";
+import { HeartOutline } from "react-ionicons";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
@@ -7,50 +7,23 @@ import { Oval } from "react-loader-spinner";
 import DeletePost from "../components/DeletePost.js";
 import { useNavigate } from "react-router-dom";
 
-export default function Posts() {
+export default function UserPosts(props) {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
-  const [error, setError] = useState(false);
-  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const [error] = useState(false);
   const navigate = useNavigate()
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:4000/posts", config);
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const promise = axios.get(`http://localhost:4000/user/${props.id}`, config);
 
     promise.then((response) => {
+      console.log(response.data);
       setPosts(response.data);
     });
-    promise.catch(() => {
-      console.log(error)
-      setError(true)
-    }) 
-  }, [error, token, userId, posts]);
-
-  function likePost(postId, likes) {
-
-    const isLiked = likes.find(like => like.userId.toString() === userId);
-
-    if(isLiked) {
-      const promise = axios.delete(`http://localhost:4000/unlike/${postId}/${userId}`);
-
-      promise.then((response) => {
-        
-      });
-      promise.catch(() => {
-        console.log(error)
-      }) 
-    } else {
-      const promise = axios.post("http://localhost:4000/like", {postId, userId});
-
-      promise.then((response) => {
-        
-      });
-      promise.catch(() => {
-        console.log(error)
-      }) 
-    }
-
-  }
+    promise.catch(console.log(error));
+    console.log(userId);
+  }, [error, token, userId]);
 
   while (posts === null) {
     return (
@@ -71,14 +44,15 @@ export default function Posts() {
   if (posts.length === 0) {
     return (
       <Loading>
-        <h1>There are no posts yet</h1>
+        <h1>There are no posts made by this user yet</h1>
       </Loading>
     );
   } else if (error) {
     return (
       <Loading>
         <h1>
-          An error occured while trying to fetch the posts, please refresh the page
+          An error occured while trying to fetch the posts, please refresh the
+          page
         </h1>
       </Loading>
     );
@@ -87,12 +61,7 @@ export default function Posts() {
       <Container key={post.id}>
         <ProfilePicContainer>
           <img alt="pelé" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}}/>
-          {post.likes.find(like => like.userId.toString() === userId) 
-          ? 
-            <HeartOutline onClick={()=> likePost(post.id, post.likes)} color={"#FFFFFF"} height="20px" width="20px" />
-          :
-            <Heart onClick={()=> likePost(post.id, post.likes)} color={"#ef2929"} height="20px" width="20px" />
-          }
+          <HeartOutline color={"#FFFFFF"} height="20px" width="20px" />
           <p>20 likes</p>
         </ProfilePicContainer>
         <Content>
@@ -158,10 +127,6 @@ const ProfilePicContainer = styled.div`
     color: #ffffff;
 
     margin-top: 3px;
-  }
-
-  .like-post:hover{
-    cursor: pointer;
   }
 `;
 
