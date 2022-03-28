@@ -35,7 +35,7 @@ export default function CreatePost() {
     promise
       .then((res) => {
         setIsPublishing(false);
-        navigate(0);
+        //navigate(0);
       })
       .catch((err) => {
         setIsPublishing(false);

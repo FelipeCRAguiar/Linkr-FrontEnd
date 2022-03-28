@@ -9,9 +9,14 @@ import AuthContext from "./contexts/AuthContext";
 import { useState } from "react";
 
 export default function App() {
-  const [token, setToken] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [userId, setUserId] = useState("");
+
+  const persistedtoken = localStorage.getItem("token");
+  const persistedAvatar = localStorage.getItem("avatar");
+  const persistedId = localStorage.getItem("userId");
+
+  const [token, setToken] = useState(persistedtoken);
+  const [avatar, setAvatar] = useState(persistedAvatar);
+  const [userId, setUserId] = useState(persistedId);
 
   function setAndPersistToken(token, avatar, userId) {
     setToken(token);
