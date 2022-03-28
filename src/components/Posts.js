@@ -40,7 +40,7 @@ export default function Posts() {
         console.log(error)
       }) 
     } else {
-      const promise = axios.post("http://localhost:4000/like", {postId, userId});
+      const promise = axios.post(`http://localhost:4000/like/${postId}/${userId}`);
 
       promise.then((response) => {
         
@@ -86,14 +86,14 @@ export default function Posts() {
     return posts.map((post) => (
       <Container key={post.id}>
         <ProfilePicContainer>
-          <img alt="pelé" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}/>
+          <img alt="profile picture" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}}/>
           {post.likes.find(like => like.userId.toString() === userId) 
           ? 
-            <HeartOutline onClick={()=> likePost(post.id, post.likes)} color={"#FFFFFF"} height="20px" width="20px" />
-          :
             <Heart onClick={()=> likePost(post.id, post.likes)} color={"#ef2929"} height="20px" width="20px" />
+          :
+            <HeartOutline onClick={()=> likePost(post.id, post.likes)} color={"#FFFFFF"} height="20px" width="20px" />
           }
-          <p>20 likes</p>
+          <p>{post.likes.length} likes</p>
         </ProfilePicContainer>
         <Content>
           <h1 onClick={() => {navigate(`/user/${post.userId}`)}}>{post.username}</h1>
