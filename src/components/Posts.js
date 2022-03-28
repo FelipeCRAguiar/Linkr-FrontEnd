@@ -5,11 +5,13 @@ import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import DeletePost from "../components/DeletePost.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Posts() {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
   const [error] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const config = { headers: { Authorization: `Bearer ${token}` } };

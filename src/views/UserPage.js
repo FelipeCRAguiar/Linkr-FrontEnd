@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import UserPosts from "../components/UserPosts.js";
 import AuthContext from "../contexts/AuthContext.js";
@@ -12,7 +13,7 @@ export default function UserPage() {
 
   useEffect(() => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    const promise = axios.get(`http://localhost:4000/users/${props.id}`, config)
+    const promise = axios.get(`http://localhost:4000/users/${id}`, config)
 
     promise.then((response) => {
       console.log(response.data)
