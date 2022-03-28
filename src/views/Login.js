@@ -26,7 +26,11 @@ export default function Login() {
     promise.then((response) => {
       setIsDisabled(false);
       navigate("/timeline");
-      setAndPersistToken(response.data.token);
+      setAndPersistToken(
+        response.data.token,
+        response.data.image,
+        response.data.id
+      );
     });
     promise.catch(() => {
       setIsDisabled(false);

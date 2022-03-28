@@ -1,14 +1,12 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components";
+import AuthContext from "../contexts/AuthContext.js";
 import ArrowButton from "../components/ArrowButton";
-
-import { AuthContext } from "../contexts/Auth.js";
-
-export default function TopBar() {
-  const [avatar, setAvatar] = useState("");
-  const { trigger, setTrigger } = React.useContext(AuthContext);
+  
+export default function Header() {
+  const { avatar } = useContext(AuthContext);
 
   return (
     <Top>
@@ -48,7 +46,7 @@ const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 100;
+  z-index: 2;
   @media (max-width: 413) {
     width: 100%;
     position: fixed;
