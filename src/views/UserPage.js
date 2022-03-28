@@ -13,7 +13,7 @@ export default function UserPage() {
 
   useEffect(() => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    const promise = axios.get(`http://localhost:4000/users/${id}`, config)
+    const promise = axios.get(`https://back-project-linkr.herokuapp.com/users/${id}`, config)
 
     promise.then((response) => {
       console.log(response.data)

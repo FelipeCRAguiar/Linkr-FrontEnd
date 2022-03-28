@@ -16,7 +16,7 @@ export default function Posts() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:4000/posts", config);
+    const promise = axios.get("https://back-project-linkr.herokuapp.com/posts", config);
 
     promise.then((response) => {
       setPosts(response.data);
@@ -32,7 +32,7 @@ export default function Posts() {
 
     if (isLiked) {
       const promise = axios.delete(
-        `http://localhost:4000/unlike/${postId}/${userId}`
+        `https://back-project-linkr.herokuapp.com/unlike/${postId}/${userId}`
       );
 
       promise.then((response) => {});
@@ -41,7 +41,7 @@ export default function Posts() {
       });
     } else {
       const promise = axios.post(`
-        http://localhost:4000/like/${postId}/${userId}`
+      https://back-project-linkr.herokuapp.com/like/${postId}/${userId}`
       );
       
       promise.then((response) => {});
