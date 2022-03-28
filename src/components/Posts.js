@@ -86,7 +86,7 @@ export default function Posts() {
     return posts.map((post) => (
       <Container key={post.id}>
         <ProfilePicContainer>
-          <img alt="pelé" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}/>
+          <img alt="pelé" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}}/>
           {post.likes.find(like => like.userId.toString() === userId) 
           ? 
             <HeartOutline onClick={()=> likePost(post.id, post.likes)} color={"#FFFFFF"} height="20px" width="20px" />
