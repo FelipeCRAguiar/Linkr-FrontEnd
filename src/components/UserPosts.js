@@ -5,15 +5,17 @@ import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import DeletePost from "../components/DeletePost.js";
+import { useNavigate } from "react-router-dom";
 
-export default function Posts() {
+export default function UserPosts(props) {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
   const [error] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
-    const promise = axios.get("http://localhost:4000/posts", config);
+    const promise = axios.get(`http://localhost:4000/user/${props.id}`, config);
 
     promise.then((response) => {
       console.log(response.data);
@@ -42,7 +44,7 @@ export default function Posts() {
   if (posts.length === 0) {
     return (
       <Loading>
-        <h1>There are no posts yet</h1>
+        <h1>There are no posts made by this user yet</h1>
       </Loading>
     );
   } else if (error) {
