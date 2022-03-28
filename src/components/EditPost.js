@@ -22,7 +22,7 @@ export default function EditPost({ post }) {
     setSendingEdit(true);
 
     const promise = axios.patch(
-      `http://localhost:4000/posts/${post.id}`,
+      `https://back-project-linkr.herokuapp.com/posts/${post.id}`,
       { text: postText },
       config
     );

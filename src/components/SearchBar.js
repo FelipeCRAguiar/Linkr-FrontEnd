@@ -15,7 +15,7 @@ export default function SerachBar() {
 
   useEffect(() => {
     if(username) {
-      const promise = axios.get(`http://localhost:4000/username?name=${username}`, config)
+      const promise = axios.get(`https://back-project-linkr.herokuapp.com/username?name=${username}`, config)
       promise.then((response) => {
         setUserList(response.data)
       })

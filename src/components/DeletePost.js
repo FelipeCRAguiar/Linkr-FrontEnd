@@ -67,7 +67,7 @@ export default function DeletePost({ post }) {
 function deletePost(post, setIsOpen, token) {
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const promise = axios.delete(
-    `http://localhost:4000/posts/${post.id}`,
+    `https://back-project-linkr.herokuapp.com/posts/${post.id}`,
     config
   );
   promise
