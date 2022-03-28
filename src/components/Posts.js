@@ -40,11 +40,10 @@ export default function Posts() {
         console.log(error);
       });
     } else {
-      const promise = axios.post("http://localhost:4000/like", {
-        postId,
-        userId,
-      });
-
+      const promise = axios.post(`
+        http://localhost:4000/like/${postId}/${userId}`
+      );
+      
       promise.then((response) => {});
       promise.catch(() => {
         console.log(error);
@@ -88,7 +87,7 @@ export default function Posts() {
       <Container key={post.id}>
         <ProfilePicContainer>
           <img
-            alt="pelé"
+            alt="profile picture"
             src={post.image}
             onClick={() => {
               navigate(`/user/${post.userId}`);
@@ -133,7 +132,7 @@ export default function Posts() {
               <h4>{post.link}</h4>
             </TextsLink>
             <div>
-              <img alt="pelé" src={post.linkImage} />
+              <img alt="link image" src={post.linkImage} />
             </div>
           </LinkDiv>
         </Content>
