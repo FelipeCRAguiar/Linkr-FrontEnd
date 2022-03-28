@@ -7,7 +7,6 @@ import { AuthContext } from "../contexts/Auth.js";
 export default function Timeline() {
   const { trigger, setTrigger } = React.useContext(AuthContext);
   
-  console.log(trigger);
   
   return (
     <Container>
