@@ -3,8 +3,7 @@ import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-
-import { AuthContext } from "../contexts/Auth.js";
+import AuthContext from "../contexts/AuthContext.js";
 
 export default function Timeline() {
   const { trigger, setTrigger } = React.useContext(AuthContext);

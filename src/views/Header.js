@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../components";
-import AuthContext from "../contexts/AuthContext.js";
+import AuthContext from "../contexts/AuthContext";
 import ArrowButton from "../components/ArrowButton";
   
 export default function Header() {

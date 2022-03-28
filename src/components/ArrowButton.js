@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { IoChevronDown } from "react-icons/io5";
 
-import { AuthContext } from "../contexts/Auth";
+import AuthContext from "../contexts/AuthContext";
 
 export default function ArrowButton() {
     const { trigger, setTrigger } = React.useContext(AuthContext);

@@ -5,7 +5,7 @@ import Login from "./views/Login";
 import SignUp from "./views/SignUp";
 import Header from "./views/Header";
 import Timeline from "./views/Timeline";
-import { AuthContext } from "./contexts/Auth";
+import AuthContext from "./contexts/AuthContext";
 import { useState } from "react";
 import UserPage from "./views/UserPage";
 
@@ -41,7 +41,7 @@ export default function App() {
         userId,
         setUserId,
         trigger,
-        settrigger,
+        setTrigger,
       }}
     >
 
