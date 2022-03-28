@@ -7,6 +7,7 @@ import Header from "./views/Header";
 import Timeline from "./views/Timeline";
 import AuthContext from "./contexts/AuthContext";
 import { useState } from "react";
+import UserPage from "./views/UserPage";
 
 export default function App() {
 
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/timeline" element={[<Header />, <Timeline />]} />
+          <Route path="/user/:id" element={[<Header />, <UserPage />]} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
