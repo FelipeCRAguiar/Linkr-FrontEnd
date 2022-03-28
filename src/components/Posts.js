@@ -1,27 +1,56 @@
 import styled from "styled-components";
-import { HeartOutline } from "react-ionicons";
+import { HeartOutline, Heart } from "react-ionicons";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import DeletePost from "../components/DeletePost.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Posts() {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
-  const [error] = useState(false);
+  const [error, setError] = useState(false);
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const config = { headers: { Authorization: `Bearer ${token}` } };
     const promise = axios.get("http://localhost:4000/posts", config);
 
     promise.then((response) => {
-      console.log(response.data);
       setPosts(response.data);
     });
-    promise.catch(console.log(error));
-    console.log(userId);
-  }, [error, token, userId]);
+    promise.catch(() => {
+      console.log(error)
+      setError(true)
+    }) 
+  }, [error, token, userId, posts]);
+
+  function likePost(postId, likes) {
+
+    const isLiked = likes.find(like => like.userId.toString() === userId);
+
+    if(isLiked) {
+      const promise = axios.delete(`http://localhost:4000/unlike/${postId}/${userId}`);
+
+      promise.then((response) => {
+        
+      });
+      promise.catch(() => {
+        console.log(error)
+      }) 
+    } else {
+      const promise = axios.post("http://localhost:4000/like", {postId, userId});
+
+      promise.then((response) => {
+        
+      });
+      promise.catch(() => {
+        console.log(error)
+      }) 
+    }
+
+  }
 
   while (posts === null) {
     return (
@@ -49,8 +78,7 @@ export default function Posts() {
     return (
       <Loading>
         <h1>
-          An error occured while trying to fetch the posts, please refresh the
-          page
+          An error occured while trying to fetch the posts, please refresh the page
         </h1>
       </Loading>
     );
@@ -58,8 +86,13 @@ export default function Posts() {
     return posts.map((post) => (
       <Container key={post.id}>
         <ProfilePicContainer>
-          <img alt="pelé" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}}/>
-          <HeartOutline color={"#FFFFFF"} height="20px" width="20px" />
+          <img alt="pelé" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}/>
+          {post.likes.find(like => like.userId.toString() === userId) 
+          ? 
+            <HeartOutline onClick={()=> likePost(post.id, post.likes)} color={"#FFFFFF"} height="20px" width="20px" />
+          :
+            <Heart onClick={()=> likePost(post.id, post.likes)} color={"#ef2929"} height="20px" width="20px" />
+          }
           <p>20 likes</p>
         </ProfilePicContainer>
         <Content>
@@ -125,6 +158,10 @@ const ProfilePicContainer = styled.div`
     color: #ffffff;
 
     margin-top: 3px;
+  }
+
+  .like-post:hover{
+    cursor: pointer;
   }
 `;
 
