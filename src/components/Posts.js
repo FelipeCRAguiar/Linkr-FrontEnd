@@ -94,21 +94,21 @@ export default function Posts() {
             }}
           />
           {post.likes.find((like) => like.userId.toString() === userId) ? (
-            <HeartOutline
-              onClick={() => likePost(post.id, post.likes)}
-              color={"#FFFFFF"}
-              height="20px"
-              width="20px"
-            />
-          ) : (
             <Heart
               onClick={() => likePost(post.id, post.likes)}
               color={"#ef2929"}
               height="20px"
               width="20px"
             />
+          ) : (
+            <HeartOutline
+            onClick={() => likePost(post.id, post.likes)}
+            color={"#FFFFFF"}
+            height="20px"
+            width="20px"
+            />
           )}
-          <p>20 likes</p>
+          <p>{post.likes.length} likes</p>
         </ProfilePicContainer>
         <Content>
           <h1
