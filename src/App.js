@@ -5,7 +5,7 @@ import Login from "./views/Login";
 import SignUp from "./views/SignUp";
 import Header from "./views/Header";
 import Timeline from "./views/Timeline";
-import AuthContext from "./contexts/AuthContext";
+import { AuthContext } from "./contexts/Auth";
 import { useState } from "react";
 import UserPage from "./views/UserPage";
 
@@ -18,7 +18,8 @@ export default function App() {
   const [token, setToken] = useState(persistedtoken);
   const [avatar, setAvatar] = useState(persistedAvatar);
   const [userId, setUserId] = useState(persistedId);
-
+  const [trigger, setTrigger] = useState(false);
+  
   function setAndPersistToken(token, avatar, userId) {
     setToken(token);
     localStorage.setItem("token", token);
@@ -29,6 +30,7 @@ export default function App() {
   }
 
   return (
+
     <AuthContext.Provider
       value={{
         token,
@@ -38,8 +40,11 @@ export default function App() {
         setAvatar,
         userId,
         setUserId,
+        trigger,
+        settrigger,
       }}
     >
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -48,6 +53,6 @@ export default function App() {
           <Route path="/user/:id" element={[<Header />, <UserPage />]} />
         </Routes>
       </BrowserRouter>
-    </AuthContext.Provider>
+    // </AuthContext.Provider>
   );
 }

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/Auth";
 import { Button, Form, Input, LinkrMotto, StyledLink } from "../components";
 
 export default function Login() {
