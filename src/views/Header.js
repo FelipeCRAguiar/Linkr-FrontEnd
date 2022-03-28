@@ -8,6 +8,7 @@ import { AuthContext } from "../contexts/Auth.js";
 
 export default function TopBar() {
   const [avatar, setAvatar] = useState("");
+  const { trigger, setTrigger } = React.useContext(AuthContext);
 
   return (
     <Top>

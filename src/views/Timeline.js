@@ -1,17 +1,19 @@
 import React from "react";
 import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 
 import { AuthContext } from "../contexts/Auth.js";
 
 export default function Timeline() {
   const { trigger, setTrigger } = React.useContext(AuthContext);
-  
+  const navigate = useNavigate();
   
   return (
-    <Container>
+    <Container onClick={() => setTrigger(false)}>
       <Content>
-        {trigger &&  <LogoutButton>Logout</LogoutButton>}
+        {trigger &&  <LogoutButton onClick={() => navigate("/") }>Logout</LogoutButton>}
         <PageTitle>timeline</PageTitle>
         <NewPost>
           <CreatePost />
