@@ -5,6 +5,7 @@ import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import DeletePost from "../components/DeletePost.js";
+import EditPost from "../components/EditPost.js";
 import { useNavigate } from "react-router-dom";
 
 export default function Posts() {
@@ -12,7 +13,7 @@ export default function Posts() {
   const [posts, setPosts] = useState(null);
   const [error, setError] = useState(false);
   const config = { headers: { Authorization: `Bearer ${token}` } };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const promise = axios.get("http://localhost:4000/posts", config);
@@ -21,35 +22,33 @@ export default function Posts() {
       setPosts(response.data);
     });
     promise.catch(() => {
-      console.log(error)
-      setError(true)
-    }) 
+      console.log(error);
+      setError(true);
+    });
   }, [error, token, userId, posts]);
 
   function likePost(postId, likes) {
+    const isLiked = likes.find((like) => like.userId.toString() === userId);
 
-    const isLiked = likes.find(like => like.userId.toString() === userId);
+    if (isLiked) {
+      const promise = axios.delete(
+        `http://localhost:4000/unlike/${postId}/${userId}`
+      );
 
-    if(isLiked) {
-      const promise = axios.delete(`http://localhost:4000/unlike/${postId}/${userId}`);
-
-      promise.then((response) => {
-        
-      });
+      promise.then((response) => {});
       promise.catch(() => {
-        console.log(error)
-      }) 
+        console.log(error);
+      });
     } else {
-      const promise = axios.post(`http://localhost:4000/like/${postId}/${userId}`);
-
-      promise.then((response) => {
-        
-      });
+      const promise = axios.post(`
+        http://localhost:4000/like/${postId}/${userId}`
+      );
+      
+      promise.then((response) => {});
       promise.catch(() => {
-        console.log(error)
-      }) 
+        console.log(error);
+      });
     }
-
   }
 
   while (posts === null) {
@@ -78,7 +77,8 @@ export default function Posts() {
     return (
       <Loading>
         <h1>
-          An error occured while trying to fetch the posts, please refresh the page
+          An error occured while trying to fetch the posts, please refresh the
+          page
         </h1>
       </Loading>
     );
@@ -86,18 +86,44 @@ export default function Posts() {
     return posts.map((post) => (
       <Container key={post.id}>
         <ProfilePicContainer>
-          <img alt="profile picture" src={post.image} onClick={() => {navigate(`/user/${post.userId}`)}}/>
-          {post.likes.find(like => like.userId.toString() === userId) 
-          ? 
-            <Heart onClick={()=> likePost(post.id, post.likes)} color={"#ef2929"} height="20px" width="20px" />
-          :
-            <HeartOutline onClick={()=> likePost(post.id, post.likes)} color={"#FFFFFF"} height="20px" width="20px" />
-          }
-          <p>{post.likes.length} likes</p>
+          <img
+            alt="profile picture"
+            src={post.image}
+            onClick={() => {
+              navigate(`/user/${post.userId}`);
+            }}
+          />
+          {post.likes.find((like) => like.userId.toString() === userId) ? (
+            <HeartOutline
+              onClick={() => likePost(post.id, post.likes)}
+              color={"#FFFFFF"}
+              height="20px"
+              width="20px"
+            />
+          ) : (
+            <Heart
+              onClick={() => likePost(post.id, post.likes)}
+              color={"#ef2929"}
+              height="20px"
+              width="20px"
+            />
+          )}
+          <p>20 likes</p>
         </ProfilePicContainer>
         <Content>
-          <h1 onClick={() => {navigate(`/user/${post.userId}`)}}>{post.username}</h1>
-          {post.userId === userId ? <DeletePost post={post} /> : null}
+          <h1
+            onClick={() => {
+              navigate(`/user/${post.userId}`);
+            }}
+          >
+            {post.username}
+          </h1>
+          {post.userId === userId ? (
+            <>
+              <DeletePost post={post} />
+              <EditPost post={post} />
+            </>
+          ) : null}
           <p>{post.text}</p>
           <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
             <TextsLink>
@@ -106,7 +132,7 @@ export default function Posts() {
               <h4>{post.link}</h4>
             </TextsLink>
             <div>
-              <img alt="pelé" src={post.linkImage} />
+              <img alt="link image" src={post.linkImage} />
             </div>
           </LinkDiv>
         </Content>
@@ -160,7 +186,7 @@ const ProfilePicContainer = styled.div`
     margin-top: 3px;
   }
 
-  .like-post:hover{
+  .like-post:hover {
     cursor: pointer;
   }
 `;
