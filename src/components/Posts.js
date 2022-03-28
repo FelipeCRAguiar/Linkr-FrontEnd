@@ -27,8 +27,8 @@ export default function Posts() {
             );
     }, []);
 
-    function handleClickHashtag(){
-        navigate("/hashtag/:hashtag");
+    function handleClickHashtag(name){
+        navigate(`/hashtag/${name}`);
     }
     while(posts === null) {
         return (
@@ -65,7 +65,7 @@ export default function Posts() {
                     <p>
                         <ReactHashtag
                             renderHashtag={(hashtagValue) => (
-                                <StyledHashtag onClick={handleClickHashtag}>
+                                <StyledHashtag onClick={() => handleClickHashtag(hashtagValue)}>
                                     {hashtagValue}
                                 </StyledHashtag>)}>
                             {post.text}

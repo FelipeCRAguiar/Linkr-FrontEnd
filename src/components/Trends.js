@@ -24,8 +24,8 @@ export default function Trends(){
             );
     }, []);
 
-    function handleClickHashtag(){
-        navigate("/hashtag/:hashtag");
+    function handleClickHashtag(name){
+        navigate(`/hashtag/${name}`);
     }
 
     return (
@@ -36,7 +36,7 @@ export default function Trends(){
                     <p>
                         <ReactHashtag
                             renderHashtag={(hashtagValue) => (
-                                <StyledHashtag onClick={handleClickHashtag}>
+                                <StyledHashtag onClick={() => handleClickHashtag(tag.name)}>
                                     {hashtagValue}
                                 </StyledHashtag>)}>
                             {tag.name}
