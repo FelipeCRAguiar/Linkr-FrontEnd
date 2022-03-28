@@ -2,6 +2,7 @@ import React from "react";
 import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Posts from "../components/Posts.js";
 
 import AuthContext from "../contexts/AuthContext.js";
 
@@ -17,6 +18,7 @@ export default function Timeline() {
         <NewPost>
           <CreatePost />
         </NewPost>
+        <Posts/>
       </Content>
     </Container>
   );
