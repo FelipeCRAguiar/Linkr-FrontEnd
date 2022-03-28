@@ -34,7 +34,7 @@ export default function CreatePost() {
     const config = generateConfig();
 
     const promise = axios.post(
-      "http://localhost:4000/post",
+      "http://localhost:4000/posts",
       {
         text: postDescription,
         link: postURL,

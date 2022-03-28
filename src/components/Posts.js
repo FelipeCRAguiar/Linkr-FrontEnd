@@ -4,14 +4,15 @@ import { useContext, useState, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
-
+import ReactHashtag from "@mdnm/react-hashtag";
+import { useNavigate } from "react-router-dom";
 
 export default function Posts() {
 
     const {token} = useContext(AuthContext);
     const [posts, setPosts] = useState(null);
     const [error, setError] = useState(false);
-
+    const navigate = useNavigate();
     const config = {headers: {"Authorization": `Bearer ${token}`}};
 
     useEffect(() => {
@@ -19,7 +20,6 @@ export default function Posts() {
         const promise = axios.get('http://localhost:4000/posts', config);
 
         promise.then(response => {
-            console.log(response.data)
             setPosts(response.data);
         })
         promise.catch(
@@ -27,7 +27,9 @@ export default function Posts() {
             );
     }, []);
 
-
+    function handleClickHashtag(){
+        navigate("/hashtag/:hashtag");
+    }
     while(posts === null) {
         return (
             <Loading>
@@ -60,10 +62,18 @@ export default function Posts() {
                 </ProfilePicContainer>
                 <Content>
                     <h1>{post.username}</h1>
-                    <p>{post.text}</p>
+                    <p>
+                        <ReactHashtag
+                            renderHashtag={(hashtagValue) => (
+                                <StyledHashtag onClick={handleClickHashtag}>
+                                    {hashtagValue}
+                                </StyledHashtag>)}>
+                            {post.text}
+                        </ReactHashtag>
+                    </p>
                     <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
                         <TextsLink>
-                            <h2>{post.title}</h2>
+                            <h2>{post.title}</h2>  
                             <h3>{post.description}</h3>
                             <h4>{post.link}</h4>
                         </TextsLink>
@@ -179,7 +189,9 @@ const TextsLink = styled.div`
         font-size: 16px;
         line-height: 19px;
         color: #FFFFFF;
+
     }
+
 
     h3{
         font-family: 'Lato';
@@ -187,6 +199,11 @@ const TextsLink = styled.div`
         font-size: 11px;
         line-height: 13px;
         color: #9B9595;
+    }
+
+    span {
+        font-weight: 700;
+        color: #000000;
     }
 
     h4{
@@ -240,3 +257,8 @@ const Loading = styled.div`
     }
 
 `
+
+const StyledHashtag = styled.span`
+  font-weight: 700;
+  color: #ffffff;
+`;

@@ -2,6 +2,7 @@ import React from "react";
 import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
 import Posts from "../components/Posts.js";
+import Trends from "../components/Trends.js";
 
 export default function Timeline() {
   return (
@@ -13,6 +14,7 @@ export default function Timeline() {
         </NewPost>
         <Posts />
       </Content>
+      <Trends />
     </Container>
   );
 }
@@ -22,6 +24,7 @@ const Container = styled.div`
   background: #333333;
   margin-top: 70px;
   display: flex;
+  gap: 15px;
   min-height: calc(100vh - 70px);
   justify-content: center;
 `;

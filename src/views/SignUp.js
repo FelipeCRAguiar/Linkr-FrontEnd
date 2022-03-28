@@ -24,7 +24,7 @@ export default function SignUp() {
     e.preventDefault();
     setIsDisabled(true);
 
-    const promise = axios.post("http://localhost:4000/users", formData);
+    const promise = axios.post("http://localhost:4000/sign-up", formData);
     console.log(formData)
     promise.then((response) => {
       setIsDisabled(false);
@@ -32,16 +32,16 @@ export default function SignUp() {
     });
 
     promise.catch ((error) => {
-      console.log(error);
-      if (error.status === 422) {
+    
+      if (error.response.status === 422) {
         return alert("All fields are required");
       }
 
-      if (error.status === 409) {
+      if (error.response.status === 409) {
         return alert("This username already exists");
       }
 
-      if (error.status === 500) {
+      if (error.response.status === 500) {
         return alert("Sorry, an internal error has occurred");
       }
     })}
