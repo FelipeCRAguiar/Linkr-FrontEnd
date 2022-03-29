@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import ArrowButton from "../components/ArrowButton";
+import SearchBar from "../components/SearchBar";
   
 export default function Header() {
   const { avatar } = useContext(AuthContext);
@@ -14,6 +15,7 @@ export default function Header() {
           <Linkr>linkr</Linkr>
         </StyledLink>
       </Logo>
+      <SearchBar />
       <UserBox>
         <ArrowButton>
         </ArrowButton>
