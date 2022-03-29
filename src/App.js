@@ -8,6 +8,7 @@ import Timeline from "./views/Timeline";
 import AuthContext from "./contexts/AuthContext";
 import { useState } from "react";
 import UserPage from "./views/UserPage";
+import Hashtags from "./views/Hashtags";
 
 export default function App() {
 
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/timeline" element={[<Header />, <Timeline />]} />
           <Route path="/user/:id" element={[<Header />, <UserPage />]} />
+          <Route path="/hashtag" element={<Hashtags/>} />
         </Routes>
       </BrowserRouter>
     // </AuthContext.Provider>
