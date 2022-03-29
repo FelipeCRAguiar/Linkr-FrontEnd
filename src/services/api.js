@@ -13,7 +13,7 @@ const queryStringBuilder = (query) =>
     : "";
 
 const instance = axios.create({
-  baseURL: 'http://localhost:4000'
+  baseURL: 'https://back-project-linkr.herokuapp.com/'
 });
 
 for (const method of methods) {

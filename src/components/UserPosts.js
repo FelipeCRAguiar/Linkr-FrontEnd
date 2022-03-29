@@ -12,7 +12,7 @@ export default function UserPosts(props) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const promise = axios.get(`http://localhost:4000/user/${props.id}`, config);
+    const promise = axios.get(`https://back-project-linkr.herokuapp.com/user/${props.id}`, config);
 
     promise.then((response) => {
       setPosts(response.data);
@@ -22,7 +22,7 @@ export default function UserPosts(props) {
       setError(true)
     }) 
   }, [error, token, userId, posts]);
-
+  
   while (posts === null) {
     return (
       <Loading>
@@ -58,8 +58,6 @@ export default function UserPosts(props) {
     return <Posts posts={posts} userId={userId}/>;
   }
 }
-
-
 
 const Loading = styled.div`
   width: 620px;
