@@ -6,7 +6,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { IoIosSearch } from "react-icons/io";
 
-export default function SerachBar() {
+export default function SearchBar() {
   const { token } = useContext(AuthContext)
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const navigate = useNavigate()
@@ -60,6 +60,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 39%;
+  margin-left: 250px;
 `
 
 const InputBox = styled.div`
@@ -72,6 +73,8 @@ const InputBox = styled.div`
   background-color: #FFFFFF;
   border-radius: 8px;
   padding: 0px 14px;
+  box-sizing: border-box;
+  overflow: hidden;
 
   .searchInput {
     width: 100%;

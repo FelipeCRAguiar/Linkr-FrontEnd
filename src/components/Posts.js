@@ -7,68 +7,68 @@ import { likePost } from "../functions/likePost.js";
 
 export default function Posts(props) {
 
-    const navigate = useNavigate()
-    
-    return (
-        props.posts.map((post) => (
-            <Container key={post.id}>
-              <ProfilePicContainer>
-                <img
-                  alt="profile picture"
-                  src={post.image}
-                  onClick={() => {
-                    navigate(`/user/${post.userId}`);
-                  }}
-                />
-                {post.likes.find((like) => like.userId.toString() === props.userId) ? (
-                  <Heart
-                    onClick={() => likePost(post.id, post.likes, props.userId)}
-                    color={"#ef2929"}
-                    height="20px"
-                    width="20px"
-                  />
-                ) : (
-                  <HeartOutline
-                  onClick={() => likePost(post.id, post.likes, props.userId)}
-                  color={"#FFFFFF"}
-                  height="20px"
-                  width="20px"
-                  />
-                )}
-                <p>{post.likes.length} likes</p>
-              </ProfilePicContainer>
-              <Content>
-                <h1
-                  onClick={() => {
-                    navigate(`/user/${post.userId}`);
-                  }}
-                >
-                  {post.username}
-                </h1>
-                {post.userId === props.userId ? (
-                  <>
-                    <DeletePost post={post} />
-                    <EditPost post={post} />
-                  </>
-                ) : null}
-                <p>{post.text}</p>
-                <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
-                  <TextsLink>
-                    <h2>{post.title}</h2>
-                    <h3>{post.description}</h3>
-                    <h4>{post.link}</h4>
-                  </TextsLink>
-                  <div>
-                    <img alt="link image" src={post.linkImage} />
-                  </div>
-                </LinkDiv>
-              </Content>
-            </Container>
-          ))
-    );
-  }
+  const navigate = useNavigate()
 
-  const Container = styled.div`
+  return (
+    props.posts.map((post) => (
+      <Container key={post.id}>
+        <ProfilePicContainer>
+          <img
+            alt="profile picture"
+            src={post.image}
+            onClick={() => {
+              navigate(`/user/${post.userId}`);
+            }}
+          />
+          {post.likes.find((like) => like.userId.toString() === props.userId) ? (
+            <Heart
+              onClick={() => likePost(post.id, post.likes, props.userId)}
+              color={"#ef2929"}
+              height="20px"
+              width="20px"
+            />
+          ) : (
+            <HeartOutline
+              onClick={() => likePost(post.id, post.likes, props.userId)}
+              color={"#FFFFFF"}
+              height="20px"
+              width="20px"
+            />
+          )}
+          <p>{post.likes.length} likes</p>
+        </ProfilePicContainer>
+        <Content>
+          <h1
+            onClick={() => {
+              navigate(`/user/${post.userId}`);
+            }}
+          >
+            {post.username}
+          </h1>
+          {post.userId === props.userId ? (
+            <>
+              <DeletePost post={post} />
+              <EditPost post={post} />
+            </>
+          ) : null}
+          <p>{post.text}</p>
+          <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
+            <TextsLink>
+              <h2>{post.title}</h2>
+              <h3>{post.description}</h3>
+              <h4>{post.link}</h4>
+            </TextsLink>
+            <div>
+              <img alt="link image" src={post.linkImage} />
+            </div>
+          </LinkDiv>
+        </Content>
+      </Container>
+    ))
+  );
+}
+
+const Container = styled.div`
   width: 620px;
   border-radius: 16px;
 
