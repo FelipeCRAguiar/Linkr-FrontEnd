@@ -19,5 +19,5 @@ export default function ArrowButton() {
 }
 
 const ButtonBox = styled.div`
-  transform: rotate(${props => props.triggered ? "0deg" : "180deg"});
+  transform: rotate(${props => props.triggered ? "180deg" : "360deg"});
 `;
