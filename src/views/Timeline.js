@@ -23,7 +23,6 @@ export default function Timeline() {
         </NewPost>
         <FeedPosts/>
       </Content>
-      <Trends />
     </Container>
   );
 }
