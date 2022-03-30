@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button, Form, Input, LinkrMotto, StyledLink } from "../components";
-//import { signUp } from "../services/signup";
 import axios from "axios";
 
 export default function SignUp() {

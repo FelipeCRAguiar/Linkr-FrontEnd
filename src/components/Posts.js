@@ -1,148 +1,74 @@
 import styled from "styled-components";
 import { HeartOutline, Heart } from "react-ionicons";
-import { useContext, useState, useEffect } from "react";
-import AuthContext from "../contexts/AuthContext";
-import axios from "axios";
-import { Oval } from "react-loader-spinner";
-import DeletePost from "../components/DeletePost.js";
-import EditPost from "../components/EditPost.js";
 import { useNavigate } from "react-router-dom";
+import DeletePost from "./DeletePost.js";
+import EditPost from "./EditPost.js";
+import { likePost } from "../functions/likePost.js";
 
-export default function Posts() {
-  const { token, userId } = useContext(AuthContext);
-  const [posts, setPosts] = useState(null);
-  const [error, setError] = useState(false);
-  const config = { headers: { Authorization: `Bearer ${token}` } };
-  const navigate = useNavigate();
+export default function Posts(props) {
 
-  useEffect(() => {
-    const promise = axios.get("http://localhost:4000/posts", config);
-
-    promise.then((response) => {
-      setPosts(response.data);
-    });
-    promise.catch(() => {
-      console.log(error);
-      setError(true);
-    });
-  }, [error, token, userId, posts]);
-
-  function likePost(postId, likes) {
-    const isLiked = likes.find((like) => like.userId.toString() === userId);
-
-    if (isLiked) {
-      const promise = axios.delete(
-        `http://localhost:4000/unlike/${postId}/${userId}`
-      );
-
-      promise.then((response) => {});
-      promise.catch(() => {
-        console.log(error);
-      });
-    } else {
-      const promise = axios.post("http://localhost:4000/like", {
-        postId,
-        userId,
-      });
-
-      promise.then((response) => {});
-      promise.catch(() => {
-        console.log(error);
-      });
-    }
-  }
-
-  while (posts === null) {
+    const navigate = useNavigate()
+    
     return (
-      <Loading>
-        <Oval
-          ariaLabel="loading-indicator"
-          height={50}
-          width={50}
-          strokeWidth={0}
-          strokeWidthSecondary={5}
-          color="#1877f2"
-          secondaryColor="white"
-        />
-      </Loading>
+        props.posts.map((post) => (
+            <Container key={post.id}>
+              <ProfilePicContainer>
+                <img
+                  alt="profile picture"
+                  src={post.image}
+                  onClick={() => {
+                    navigate(`/user/${post.userId}`);
+                  }}
+                />
+                {post.likes.find((like) => like.userId.toString() === props.userId) ? (
+                  <Heart
+                    onClick={() => likePost(post.id, post.likes, props.userId)}
+                    color={"#ef2929"}
+                    height="20px"
+                    width="20px"
+                  />
+                ) : (
+                  <HeartOutline
+                  onClick={() => likePost(post.id, post.likes, props.userId)}
+                  color={"#FFFFFF"}
+                  height="20px"
+                  width="20px"
+                  />
+                )}
+                <p>{post.likes.length} likes</p>
+              </ProfilePicContainer>
+              <Content>
+                <h1
+                  onClick={() => {
+                    navigate(`/user/${post.userId}`);
+                  }}
+                >
+                  {post.username}
+                </h1>
+                {post.userId === props.userId ? (
+                  <>
+                    <DeletePost post={post} />
+                    <EditPost post={post} />
+                  </>
+                ) : null}
+                <p>{post.text}</p>
+                <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
+                  <TextsLink>
+                    <h2>{post.title}</h2>
+                    <h3>{post.description}</h3>
+                    <h4>{post.link}</h4>
+                  </TextsLink>
+                  <div>
+                    <img alt="link image" src={post.linkImage} />
+                  </div>
+                </LinkDiv>
+              </Content>
+            </Container>
+          ))
     );
   }
 
-  if (posts.length === 0) {
-    return (
-      <Loading>
-        <h1>There are no posts yet</h1>
-      </Loading>
-    );
-  } else if (error) {
-    return (
-      <Loading>
-        <h1>
-          An error occured while trying to fetch the posts, please refresh the
-          page
-        </h1>
-      </Loading>
-    );
-  } else {
-    return posts.map((post) => (
-      <Container key={post.id}>
-        <ProfilePicContainer>
-          <img
-            alt="pelé"
-            src={post.image}
-            onClick={() => {
-              navigate(`/user/${post.userId}`);
-            }}
-          />
-          {post.likes.find((like) => like.userId.toString() === userId) ? (
-            <HeartOutline
-              onClick={() => likePost(post.id, post.likes)}
-              color={"#FFFFFF"}
-              height="20px"
-              width="20px"
-            />
-          ) : (
-            <Heart
-              onClick={() => likePost(post.id, post.likes)}
-              color={"#ef2929"}
-              height="20px"
-              width="20px"
-            />
-          )}
-          <p>20 likes</p>
-        </ProfilePicContainer>
-        <Content>
-          <h1
-            onClick={() => {
-              navigate(`/user/${post.userId}`);
-            }}
-          >
-            {post.username}
-          </h1>
-          {post.userId === userId ? (
-            <>
-              <DeletePost post={post} />
-              <EditPost post={post} />
-            </>
-          ) : null}
-          <p>{post.text}</p>
-          <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
-            <TextsLink>
-              <h2>{post.title}</h2>
-              <h3>{post.description}</h3>
-              <h4>{post.link}</h4>
-            </TextsLink>
-            <div>
-              <img alt="pelé" src={post.linkImage} />
-            </div>
-          </LinkDiv>
-        </Content>
-      </Container>
-    ));
-  }
-}
-
-const Container = styled.div`
+  const Container = styled.div`
   width: 620px;
   border-radius: 16px;
 
@@ -284,16 +210,3 @@ const LinkDiv = styled.div`
   }
 `;
 
-const Loading = styled.div`
-  width: 620px;
-  height: 376px;
-  border-radius: 16px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  h1 {
-    color: white;
-  }
-`;

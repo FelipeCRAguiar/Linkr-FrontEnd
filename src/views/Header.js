@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { IoChevronDown } from "react-icons/io5";
-import AuthContext from "../contexts/AuthContext.js";
-
+import AuthContext from "../contexts/AuthContext";
+import ArrowButton from "../components/ArrowButton";
+  
 export default function Header() {
   const { avatar } = useContext(AuthContext);
 
@@ -15,7 +15,8 @@ export default function Header() {
         </StyledLink>
       </Logo>
       <UserBox>
-        <IoChevronDown size="1.8em" />
+        <ArrowButton>
+        </ArrowButton>
         <UserAvatar src={avatar} />
       </UserBox>
     </Top>
@@ -95,4 +96,7 @@ const StyledLink = styled(Link)`
   &:active {
     text-decoration: none;
   }
+`;
+const Menu = styled.div`
+  
 `;

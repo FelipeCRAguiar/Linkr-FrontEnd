@@ -1,28 +1,29 @@
-import styled from "styled-components";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import Posts from "./Posts";
+import styled from "styled-components";
 
-export default function UserPosts(props) {
+export default function FeedPosts() {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
-  const config = { headers: { Authorization: `Bearer ${token}` } };
   const [error, setError] = useState(false);
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+
 
   useEffect(() => {
-    const promise = axios.get(`https://back-project-linkr.herokuapp.com/user/${props.id}`, config);
+    const promise = axios.get("http://localhost:4000/posts", config);
 
     promise.then((response) => {
       setPosts(response.data);
     });
     promise.catch(() => {
-      console.log(error)
-      setError(true)
-    }) 
+      console.log(error);
+      setError(true);
+    });
   }, [error, token, userId, posts]);
-  
+
   while (posts === null) {
     return (
       <Loading>
@@ -42,7 +43,7 @@ export default function UserPosts(props) {
   if (posts.length === 0) {
     return (
       <Loading>
-        <h1>There are no posts made by this user yet</h1>
+        <h1>There are no posts yet</h1>
       </Loading>
     );
   } else if (error) {
@@ -55,7 +56,7 @@ export default function UserPosts(props) {
       </Loading>
     );
   } else {
-    return <Posts posts={posts} userId={userId}/>;
+    return <Posts posts={posts} userId={userId}/>
   }
 }
 
@@ -72,3 +73,5 @@ const Loading = styled.div`
     color: white;
   }
 `;
+
+
