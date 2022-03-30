@@ -4,7 +4,8 @@ import AuthContext from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import { IoIosSearch } from "react-icons/io";
+import { AiOutlineSearch } from "react-icons/ai";
+import { IconContext } from "react-icons";
 
 export default function SearchBar() {
   const { token } = useContext(AuthContext)
@@ -38,7 +39,9 @@ export default function SearchBar() {
     <Container>
       <InputBox>
         <DebounceInput minLength={3} debounceTimeout={300} onChange={e => setUsername(e.target.value)} value={username} placeholder='Search for people' className="searchInput" />
-        <IoIosSearch className="searchIcon" />
+        <IconContext.Provider value={{ color: "gray", size: "28px" }}>
+          <AiOutlineSearch />
+        </IconContext.Provider>
       </InputBox>
       <UserListContainer>
         {userList.map((el) => (
@@ -53,14 +56,12 @@ export default function SearchBar() {
 }
 
 const Container = styled.div`
-  position: absolute;
+  position: relative;
   z-index: 15;
   display: flex;
-  top: 14px;
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  margin-left: 250px;
 `
 
 const InputBox = styled.div`
@@ -86,6 +87,7 @@ const InputBox = styled.div`
     font-size: 19px;
     line-height: 23px;
     color: #C6C6C6;
+    outline: none;
   }
 
   .searchIcon {
