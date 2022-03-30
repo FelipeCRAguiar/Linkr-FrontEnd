@@ -1,71 +1,92 @@
 import styled from "styled-components";
-import { HeartOutline, Heart } from "react-ionicons";
+import { HeartOutline } from 'react-ionicons';
+import { useContext, useState, useEffect } from "react";
+import AuthContext from "../contexts/AuthContext";
+import axios from "axios";
+import { Oval } from "react-loader-spinner";
+import ReactHashtag from "@mdnm/react-hashtag";
 import { useNavigate } from "react-router-dom";
-import DeletePost from "./DeletePost.js";
-import EditPost from "./EditPost.js";
-import { likePost } from "../functions/likePost.js";
 
-export default function Posts(props) {
+export default function Posts() {
 
-  const navigate = useNavigate()
+    const {token} = useContext(AuthContext);
+    const [posts, setPosts] = useState(null);
+    const [error, setError] = useState(false);
+    const navigate = useNavigate();
+    const config = {headers: {"Authorization": `Bearer ${token}`}};
 
-  return (
-    props.posts.map((post) => (
-      <Container key={post.id}>
-        <ProfilePicContainer>
-          <img
-            alt="profile picture"
-            src={post.image}
-            onClick={() => {
-              navigate(`/user/${post.userId}`);
-            }}
-          />
-          {post.likes.find((like) => like.userId.toString() === props.userId) ? (
-            <Heart
-              onClick={() => likePost(post.id, post.likes, props.userId)}
-              color={"#ef2929"}
-              height="20px"
-              width="20px"
-            />
-          ) : (
-            <HeartOutline
-              onClick={() => likePost(post.id, post.likes, props.userId)}
-              color={"#FFFFFF"}
-              height="20px"
-              width="20px"
-            />
-          )}
-          <p>{post.likes.length} likes</p>
-        </ProfilePicContainer>
-        <Content>
-          <h1
-            onClick={() => {
-              navigate(`/user/${post.userId}`);
-            }}
-          >
-            {post.username}
-          </h1>
-          {post.userId === props.userId ? (
-            <>
-              <DeletePost post={post} />
-              <EditPost post={post} />
-            </>
-          ) : null}
-          <p>{post.text}</p>
-          <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
-            <TextsLink>
-              <h2>{post.title}</h2>
-              <h3>{post.description}</h3>
-              <h4>{post.link}</h4>
-            </TextsLink>
-            <div>
-              <img alt="link image" src={post.linkImage} />
-            </div>
-          </LinkDiv>
-        </Content>
-      </Container>
-    ))
-  );
+    useEffect(() => {
+        
+        const promise = axios.get('http://localhost:4000/posts', config);
+
+        promise.then(response => {
+            setPosts(response.data);
+        })
+        promise.catch(
+            console.log(error)
+            );
+    }, []);
+
+    function handleClickHashtag(name){
+        navigate(`/hashtag/${name}`);
+    }
+    while(posts === null) {
+        return (
+            <Loading>
+            <Oval ariaLabel="loading-indicator" height={50} width={50} strokeWidth={0} strokeWidthSecondary={5} color="#1877f2" secondaryColor="white"/>
+            </Loading>
+        )
+    }
+
+    if(posts.length === 0) {
+        return (
+            <Loading>
+            <h1>There are no posts yet</h1>
+            </Loading>
+        )
+    } else if (error) {
+        return (
+            <Loading>
+            <h1>An error occured while trying to fetch the posts, please refresh the page</h1>
+            </Loading>
+        )
+    } else {
+        return (
+
+            posts.map(post => (
+                <Container key={post.id}>
+                <ProfilePicContainer>
+                    <img alt="pelé" src={post.image}/>
+                    <HeartOutline color={'#FFFFFF'} height="20px" width="20px"/>
+                    <p>20 likes</p>
+                </ProfilePicContainer>
+                <Content>
+                    <h1>{post.username}</h1>
+                    <p>
+                        <ReactHashtag
+                            renderHashtag={(hashtagValue) => (
+                                <StyledHashtag onClick={() => handleClickHashtag(hashtagValue)}>
+                                    {hashtagValue}
+                                </StyledHashtag>)}>
+                            {post.text}
+                        </ReactHashtag>
+                    </p>
+                    <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
+                        <TextsLink>
+                            <h2>{post.title}</h2>  
+                            <h3>{post.description}</h3>
+                            <h4>{post.link}</h4>
+                        </TextsLink>
+                        <div>
+                            <img alt="pelé" src={post.linkImage}/>
+                        </div>
+                    </LinkDiv>
+                </Content>
+            </Container>
+            ))
+            
+        )
+    }
 }
 
 const Container = styled.div`
@@ -150,42 +171,52 @@ const Content = styled.div`
 `;
 
 const TextsLink = styled.div`
-  height: 100%;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
 
-  gap: 7px;
-  padding: 18px 19px;
+    height: 100%;
 
-  h2 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    color: #ffffff;
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 
-  h3 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    color: #9b9595;
-  }
+    gap: 7px;
+    padding: 18px 19px;
 
-  h4 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    color: #cecece;
+    h2{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #FFFFFF;
 
-    margin-top: 12px;
-  }
-`;
+    }
+
+
+    h3{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        color: #9B9595;
+    }
+
+    span {
+        font-weight: 700;
+        color: #000000;
+    }
+
+    h4{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        color: #CECECE;
+
+        margin-top: 12px;
+    }
+
+`
 
 const LinkDiv = styled.div`
   box-sizing: border-box;
@@ -210,3 +241,8 @@ const LinkDiv = styled.div`
   }
 `;
 
+
+const StyledHashtag = styled.span`
+  font-weight: 700;
+  color: #ffffff;
+`;
