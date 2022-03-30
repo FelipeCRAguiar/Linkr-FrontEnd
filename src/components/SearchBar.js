@@ -6,7 +6,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { IoIosSearch } from "react-icons/io";
 
-export default function SerachBar() {
+export default function SearchBar() {
   const { token } = useContext(AuthContext)
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const navigate = useNavigate()
@@ -14,7 +14,7 @@ export default function SerachBar() {
   const [userList, setUserList] = useState([])
 
   useEffect(() => {
-    if(username) {
+    if (username) {
       const promise = axios.get(`https://back-project-linkr.herokuapp.com/username?name=${username}`, config)
       promise.then((response) => {
         setUserList(response.data)
@@ -27,43 +27,44 @@ export default function SerachBar() {
       setUserList([])
     }
   }, [username])
-
+  console.log(userList);
   function handleClick(id) {
     navigate(`/user/${id}`)
     setUsername("")
     setUserList([])
   }
 
-  return(
+  return (
     <Container>
       <InputBox>
-        <DebounceInput minLength={3} debounceTimeout={300} onChange={e => setUsername(e.target.value)} value={username} placeholder='Search for people' className="searchInput"/>
-        <IoIosSearch className="searchIcon"/>
+        <DebounceInput minLength={3} debounceTimeout={300} onChange={e => setUsername(e.target.value)} value={username} placeholder='Search for people' className="searchInput" />
+        <IoIosSearch className="searchIcon" />
       </InputBox>
       <UserListContainer>
-        {userList.map(el => {
+        {userList.map((el) => (
           <UserListItem onClick={() => handleClick(el.id)} key={el.id}>
-            <img src={el.image} alt='user picture'/>
+            <img src={el.image} alt='user picture' />
             <h1>{el.username}</h1>
           </UserListItem>
-        })}
+        ))}
       </UserListContainer>
     </Container>
   )
 }
 
 const Container = styled.div`
-  position: fixed;
+  position: absolute;
   z-index: 15;
   display: flex;
   top: 14px;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  width: 39%;
+  margin-left: 250px;
 `
 
 const InputBox = styled.div`
-  width: 100%;
+  width: 563px;
   height: 45px;
   display: flex;
   justify-content: space-between;
@@ -72,6 +73,8 @@ const InputBox = styled.div`
   background-color: #FFFFFF;
   border-radius: 8px;
   padding: 0px 14px;
+  box-sizing: border-box;
+  overflow: hidden;
 
   .searchInput {
     width: 100%;
@@ -91,20 +94,26 @@ const InputBox = styled.div`
   }
 `
 
-const UserListContainer = styled.ul`
+const UserListContainer = styled.div`
   width: 100%;
-  background-color: #e7e7e7;
+  background-color: #E7E7E7;
   border-radius: 8px;
+  padding-top: 40px;
+  box-sizing: border-box;
   position: absolute;
   top: 0px;
+
   z-index: 15;
-  padding: 45px 17px 0px 17px;
 `
 
-const UserListItem = styled.li`
+const UserListItem = styled.div`
+  height: 40px;
+  padding: 17px 17px 17px 17px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  padding: 7px 0px;
+  position: relative;
+  z-index: 20;
 
   img {
     width: 39px;
