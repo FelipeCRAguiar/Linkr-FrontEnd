@@ -14,10 +14,12 @@ export default function Trends(){
 
     useEffect(() => {
         
-        const promise = axios.get('http://localhost:4000/hashtags', config);
+
+        const promise = axios.get('https://back-project-linkr.herokuapp.com/hashtags', config);
 
         promise.then(response => {
             setTags(response.data.rows);
+            console.log(tags)
         })
         promise.catch(
             console.log(error)

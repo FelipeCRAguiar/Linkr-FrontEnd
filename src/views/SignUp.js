@@ -23,7 +23,7 @@ export default function SignUp() {
     e.preventDefault();
     setIsDisabled(true);
 
-    const promise = axios.post("http://localhost:4000/sign-up", formData);
+    const promise = axios.post("https://back-project-linkr.herokuapp.com/sign-up", formData);
     console.log(formData)
     promise.then((response) => {
       setIsDisabled(false);
