@@ -3,16 +3,24 @@ import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
 import Posts from "../components/Posts.js";
 import Trends from "../components/Trends.js";
+import { useNavigate } from "react-router-dom";
+import FeedPosts from "../components/FeedPosts.js";
+import AuthContext from "../contexts/AuthContext.js";
+
 
 export default function Timeline() {
+  const { trigger, setTrigger } = React.useContext(AuthContext);
+  const navigate = useNavigate();
+  
   return (
-    <Container>
+    <Container onClick={() => setTrigger(false)}>
       <Content>
+        {trigger &&  <LogoutButton onClick={() => navigate("/") }>Logout</LogoutButton>}
         <PageTitle>timeline</PageTitle>
         <NewPost>
           <CreatePost />
         </NewPost>
-        <Posts />
+        <FeedPosts/>
       </Content>
       <Trends />
     </Container>
@@ -26,7 +34,8 @@ const Container = styled.div`
   display: flex;
   gap: 15px;
   min-height: calc(100vh - 70px);
-  justify-content: center;
+  justify-content: center; 
+  position: absolute;
 `;
 
 const PageTitle = styled.h2`
@@ -57,4 +66,22 @@ const NewPost = styled.div`
   @media (max-width: 413) {
     width: 100%;
   }
+`;
+const LogoutButton = styled.div`
+  width: 150px;
+  height: 47px;
+  position: absolute;
+  background-color: #171717;
+  border-bottom-left-radius: 20px;
+  color: #FFFFFF;
+  font-family: 'Lato';
+  font-size: 17px;
+  
+  
+  display: ${props => props.triggered ? "none" : "inherit"};
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

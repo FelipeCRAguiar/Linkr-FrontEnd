@@ -11,7 +11,6 @@ export default function Login() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { setAndPersistToken } = useContext(AuthContext);
-  const { setAvatar } = useContext(AuthContext);
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -23,12 +22,15 @@ export default function Login() {
     setIsDisabled(true);
     navigate("/");
 
-    const promise = axios.post("http://localhost:4000/login", formData);
+    const promise = axios.post("https://back-project-linkr.herokuapp.com/login", formData);
     promise.then((response) => {
       setIsDisabled(false);
       navigate("/timeline");
-      setAndPersistToken(response.data.token);
-      setAvatar(response.data.image);
+      setAndPersistToken(
+        response.data.token,
+        response.data.image,
+        response.data.id
+      );
     });
     promise.catch(() => {
       setIsDisabled(false);

@@ -89,89 +89,89 @@ export default function Posts() {
     }
 }
 
-
 const Container = styled.div`
+  width: 620px;
+  border-radius: 16px;
 
-    width: 620px;
-    border-radius: 16px;
+  background-color: #171717;
 
-    background-color: #171717;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+  margin: 30px 0;
 
-    margin: 30px 0;
-
-    .div-link:hover{
-        cursor: pointer;
-    }
-
-`
+  .div-link:hover {
+    cursor: pointer;
+  }
+`;
 
 const ProfilePicContainer = styled.div`
+  width: 86px;
 
-    width: 86px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+  img {
+    height: 50px;
+    width: 50px;
 
-    img {
-        height: 50px;
-        width: 50px;
+    margin-top: 18px;
+    margin-bottom: 20px;
 
-        margin-top: 18px;
-        margin-bottom: 20px;
+    border-radius: 100px;
+  }
 
-        border-radius: 100px;
-    }
+  p {
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #ffffff;
 
-    p{
-        font-family: 'Lato';
-        font-weight: 400;
-        font-size: 11px;
-        line-height: 13px;
-        color: #FFFFFF;
+    margin-top: 3px;
+  }
 
-        margin-top: 3px;
-    }
-`
+  .like-post:hover {
+    cursor: pointer;
+  }
+`;
 
 const Content = styled.div`
+  height: 100%;
 
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+  gap: 7px;
+  padding: 18px 0;
 
-    gap: 7px;
-    padding: 18px 0;
+  h1 {
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 18px;
+    color: #ffffff;
+  }
 
-    h1{
-        font-family: 'Lato';
-        font-weight: 400;
-        font-size: 19px;
-        line-height: 18px;
-        color: #FFFFFF;
-    }
+  p {
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 18px;
+    color: #b7b7b7;
 
-    p{
-        font-family: 'Lato';
-        font-weight: 400;
-        font-size: 17px;
-        line-height: 18px;
-        color: #B7B7B7;
-
-        margin-bottom: 10px;
-    }
-
-`
+    margin-bottom: 10px;
+  }
+`;
 
 const TextsLink = styled.div`
+
 
     height: 100%;
 
@@ -219,44 +219,28 @@ const TextsLink = styled.div`
 `
 
 const LinkDiv = styled.div`
+  box-sizing: border-box;
 
-    box-sizing: border-box;
+  width: 503px;
+  height: 155px;
 
-    width: 503px;
+  border: solid 1px #4d4d4d;
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  img {
     height: 155px;
+    width: 155px;
 
-    border: solid 1px #4D4D4D;
-    border-radius: 12px;
+    border-radius: 0 12px 12px 0;
 
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    margin-top: 2px;
+  }
+`;
 
-    img {
-        height: 155px;
-        width: 155px;
-
-        border-radius: 0 12px 12px 0;
-
-        margin-top: 2px;
-    }
-`
-
-const Loading = styled.div`
-
-    width: 620px;
-    height: 376px; 
-    border-radius: 16px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-
-    h1{
-        color: white;
-    }
-
-`
 
 const StyledHashtag = styled.span`
   font-weight: 700;

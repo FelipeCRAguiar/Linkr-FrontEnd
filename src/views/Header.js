@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { IoChevronDown } from "react-icons/io5";
-import AuthContext from "../contexts/AuthContext.js";
-
+import AuthContext from "../contexts/AuthContext";
+import ArrowButton from "../components/ArrowButton";
+import SearchBar from "../components/SearchBar";
+  
 export default function Header() {
   const { avatar } = useContext(AuthContext);
 
@@ -14,8 +15,10 @@ export default function Header() {
           <Linkr>linkr</Linkr>
         </StyledLink>
       </Logo>
+      <SearchBar />
       <UserBox>
-        <IoChevronDown size="1.8em" />
+        <ArrowButton>
+        </ArrowButton>
         <UserAvatar src={avatar} />
       </UserBox>
     </Top>
@@ -44,7 +47,7 @@ const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 100;
+  z-index: 2;
   @media (max-width: 413) {
     width: 100%;
     position: fixed;
@@ -95,4 +98,7 @@ const StyledLink = styled(Link)`
   &:active {
     text-decoration: none;
   }
+`;
+const Menu = styled.div`
+  
 `;
