@@ -31,16 +31,16 @@ export default function SignUp() {
     });
 
     promise.catch ((error) => {
-      console.log(error);
-      if (error.status === 422) {
+    
+      if (error.response.status === 422) {
         return alert("All fields are required");
       }
 
-      if (error.status === 409) {
+      if (error.response.status === 409) {
         return alert("This username already exists");
       }
 
-      if (error.status === 500) {
+      if (error.response.status === 500) {
         return alert("Sorry, an internal error has occurred");
       }
     })}

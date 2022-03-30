@@ -14,6 +14,7 @@ export default function Trends(){
 
     useEffect(() => {
         
+
         const promise = axios.get('https://back-project-linkr.herokuapp.com/hashtags', config);
 
         promise.then(response => {
@@ -25,8 +26,8 @@ export default function Trends(){
             );
     }, []);
 
-    function handleClickHashtag(){
-        navigate(`/hashtags/${tags.name}`);
+    function handleClickHashtag(name){
+        navigate(`/hashtag/${name}`);
     }
 
     return (
@@ -37,7 +38,7 @@ export default function Trends(){
                     <p>
                         <ReactHashtag
                             renderHashtag={(hashtagValue) => (
-                                <StyledHashtag onClick={handleClickHashtag}>
+                                <StyledHashtag onClick={() => handleClickHashtag(tag.name)}>
                                     {hashtagValue}
                                 </StyledHashtag>)}>
                             {tag.name}

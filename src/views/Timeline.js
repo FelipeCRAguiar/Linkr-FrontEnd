@@ -1,10 +1,13 @@
 import React from "react";
 import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
+import Posts from "../components/Posts.js";
+import Trends from "../components/Trends.js";
 import { useNavigate } from "react-router-dom";
 import FeedPosts from "../components/FeedPosts.js";
 import Trends from "../components/Trends.js";
 import AuthContext from "../contexts/AuthContext.js";
+
 
 export default function Timeline() {
   const { trigger, setTrigger } = React.useContext(AuthContext);
@@ -30,6 +33,7 @@ const Container = styled.div`
   background: #333333;
   margin-top: 70px;
   display: flex;
+  gap: 15px;
   min-height: calc(100vh - 70px);
   justify-content: center; 
   position: absolute;
