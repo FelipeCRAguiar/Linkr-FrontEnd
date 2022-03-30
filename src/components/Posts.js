@@ -153,42 +153,52 @@ const Content = styled.div`
 `;
 
 const TextsLink = styled.div`
-  height: 100%;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
 
-  gap: 7px;
-  padding: 18px 19px;
+    height: 100%;
 
-  h2 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    color: #ffffff;
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 
-  h3 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    color: #9b9595;
-  }
+    gap: 7px;
+    padding: 18px 19px;
 
-  h4 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    color: #cecece;
+    h2{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #FFFFFF;
 
-    margin-top: 12px;
-  }
-`;
+    }
+
+
+    h3{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        color: #9B9595;
+    }
+
+    span {
+        font-weight: 700;
+        color: #000000;
+    }
+
+    h4{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        color: #CECECE;
+
+        margin-top: 12px;
+    }
+
+`
 
 const LinkDiv = styled.div`
   box-sizing: border-box;
@@ -213,3 +223,8 @@ const LinkDiv = styled.div`
   }
 `;
 
+
+const StyledHashtag = styled.span`
+  font-weight: 700;
+  color: #ffffff;
+`;
