@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import { HeartOutline, Heart } from "react-ionicons";
+import { FaRegHeart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
 import DeletePost from "./DeletePost.js";
 import EditPost from "./EditPost.js";
@@ -21,14 +23,14 @@ export default function Posts(props) {
             }}
           />
           {post.likes.find((like) => like.userId.toString() === props.userId) ? (
-            <Heart
+            <FaHeart
               onClick={() => likePost(post.id, post.likes, props.userId)}
               color={"#ef2929"}
               height="20px"
               width="20px"
             />
           ) : (
-            <HeartOutline
+            <FaRegHeart
               onClick={() => likePost(post.id, post.likes, props.userId)}
               color={"#FFFFFF"}
               height="20px"
@@ -36,6 +38,7 @@ export default function Posts(props) {
             />
           )}
           <p>{post.likes.length} likes</p>
+
         </ProfilePicContainer>
         <Content>
           <h1
