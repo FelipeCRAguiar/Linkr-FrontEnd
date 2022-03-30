@@ -18,6 +18,7 @@ export default function Trends(){
 
         promise.then(response => {
             setTags(response.data.rows);
+            console.log(tags)
         })
         promise.catch(
             console.log(error)
@@ -25,7 +26,7 @@ export default function Trends(){
     }, []);
 
     function handleClickHashtag(){
-        navigate("/hashtag/:hashtag");
+        navigate(`/hashtags/${tags.name}`);
     }
 
     return (

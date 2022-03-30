@@ -3,7 +3,7 @@ import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import FeedPosts from "../components/FeedPosts.js";
-
+import Trends from "../components/Trends.js";
 import AuthContext from "../contexts/AuthContext.js";
 
 export default function Timeline() {
@@ -20,6 +20,7 @@ export default function Timeline() {
         </NewPost>
         <FeedPosts/>
       </Content>
+      <Trends />
     </Container>
   );
 }
