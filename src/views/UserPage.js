@@ -1,15 +1,16 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import styled from "styled-components";
 import UserPosts from "../components/UserPosts.js";
 import AuthContext from "../contexts/AuthContext.js";
 
 export default function UserPage() {
-  const { id } = useParams
+  const { id } = useParams()
   const { token } = useContext(AuthContext);
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState({})
+  console.log(id)
 
   useEffect(() => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
@@ -22,6 +23,7 @@ export default function UserPage() {
     promise.catch((error) => {
       console.log(error)
     })
+    console.log(user)
   }, [])
   
   return (
