@@ -5,7 +5,6 @@ import Posts from "../components/Posts.js";
 import Trends from "../components/Trends.js";
 import { useNavigate } from "react-router-dom";
 import FeedPosts from "../components/FeedPosts.js";
-import Trends from "../components/Trends.js";
 import AuthContext from "../contexts/AuthContext.js";
 
 
