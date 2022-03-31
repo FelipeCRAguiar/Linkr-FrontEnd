@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { HeartOutline, Heart, ChatbubblesOutline, SendOutline} from "react-ionicons";
 import { FaRegHeart } from 'react-icons/fa';
+import { IoIosSend } from 'react-icons/io';
+import { IoChatbubblesOutline } from 'react-icons/io5';
 import { FaHeart } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
@@ -84,7 +85,7 @@ export default function Posts(props) {
                         </p>
                     </div>
                 </NamesBox>
-                <ChatbubblesOutline
+                <IoChatbubblesOutline
                   onClick={() => showComments(post.id)}
                   color={"#FFFFFF"}
                   height="20px"
@@ -149,7 +150,7 @@ export default function Posts(props) {
                           value={comment}
                           onChange={handleChange}
                         />
-                        <SendOutline
+                        <IoIosSend
                           cssClasses="send"
                           onClick={() => insertComment(post.id, props.userId)}
                           color={"#FFFFFF"}
