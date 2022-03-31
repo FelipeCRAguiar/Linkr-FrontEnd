@@ -1,16 +1,18 @@
-import styled from "styled-components";
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import Posts from "./Posts";
-import { likePost } from "../functions/likePost";
+import styled from "styled-components";
 
-export default function UserPosts(props) {
+
+
+export default function FeedPosts(props) {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
-  const config = { headers: { Authorization: `Bearer ${token}` } };
   const [error, setError] = useState(false);
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+
 
   useEffect(() => {
     const promise = axios.get(`https://back-project-linkr.herokuapp.com/user/${props.id}`, config);
@@ -19,11 +21,11 @@ export default function UserPosts(props) {
       setPosts(response.data);
     });
     promise.catch(() => {
-      console.log(error)
-      setError(true)
-    }) 
-  }, [error, token, userId, posts]);
-  
+      console.log(error);
+      setError(true);
+    });
+  }, [error, token, userId]);
+
   while (posts === null) {
     return (
       <Loading>
@@ -56,7 +58,7 @@ export default function UserPosts(props) {
       </Loading>
     );
   } else {
-    return <Posts posts={posts} userId={userId}/>;
+    return <Posts posts={posts} userId={userId}/>
   }
 }
 
