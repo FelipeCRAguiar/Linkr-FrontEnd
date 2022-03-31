@@ -9,11 +9,13 @@ import AuthContext from "../contexts/AuthContext.js";
 
 export default function UserPage() {
   const { id } = useParams()
-  const { token } = useContext(AuthContext);
+  const { token, userId } = useContext(AuthContext);
   const [user, setUser] = useState({})
+  const [isDisabled, setIsDisabled] = useState(false)
+  const [following, setFollowing] = useState(false)
+  const config = { headers: { Authorization: `Bearer ${token}` } };
 
   useEffect(() => {
-    const config = { headers: { Authorization: `Bearer ${token}` } };
     const promise = axios.get(`https://back-project-linkr.herokuapp.com/users/${id}`, config)
 
     promise.then((response) => {
@@ -26,6 +28,36 @@ export default function UserPage() {
     console.log(user)
   }, [])
   
+  function FollowUnfollow() {
+    setIsDisabled(true)
+    const body = {followerId: userId, followedId: id}
+
+    if(following) {
+      const promise = axios.delete('https://back-project-linkr.herokuapp.com/unfollow', body, config)
+
+      promise.then((response) => {
+        setFollowing(false)
+      })
+      promise.catch((error) => {
+        console.log(error)
+        alert("Sua requisição encontrou um problema, favor tentar novamente")
+      })
+    } else if(!following) {
+      const promise = axios.delete('https://back-project-linkr.herokuapp.com/follow', body, config)
+
+      promise.then((response) => {
+        setFollowing(true)
+      })
+      promise.catch((error) => {
+        console.log(error)
+        alert("Sua requisição encontrou um problema, favor tentar novamente")
+      })
+    }
+
+    setIsDisabled(false)
+
+  }
+
   return (
     <Container>
       <Content>
@@ -34,7 +66,7 @@ export default function UserPage() {
             <UserImage src={user.image}/>
             <span>{user.username}'s posts</span>
           </UserContainer>
-          <FollowButton>Follow</FollowButton>
+          {following? <FollowButton onClick={FollowUnfollow} disabled={isDisabled}>Follow</FollowButton> : <UnfollowButton onClick={FollowUnfollow} disabled={isDisabled}>Unfollow</UnfollowButton>}
         </PageTitle>
         <UserPosts id={id}/>
       </Content>
