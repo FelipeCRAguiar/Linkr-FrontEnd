@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button, Form, Input, LinkrMotto, StyledLink } from "../components";
-import { signUp } from "../services/signup";
+import axios from "axios";
 
 export default function SignUp() {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -19,29 +19,31 @@ export default function SignUp() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  async function handleSubmit(e) {
-
+  function handleSubmit(e) {
     e.preventDefault();
     setIsDisabled(true);
-    console.log();
-    try {
-      await signUp({ ...formData });
+
+    const promise = axios.post("https://back-project-linkr.herokuapp.com/sign-up", formData);
+    console.log(formData)
+    promise.then((response) => {
+      setIsDisabled(false);
       navigate("/");
-    } catch (error) {
-      console.log(error.status);
-      if (error.status === 422) {
-        alert("All fields are required");
+    });
+
+    promise.catch ((error) => {
+    
+      if (error.response.status === 422) {
+        return alert("All fields are required");
       }
 
-      if (error.status === 409) {
-        alert("This username already exists");
+      if (error.response.status === 409) {
+        return alert("This username already exists");
       }
 
-      if (error.status === 500) {
-        alert("Sorry, an internal error has occurred");
+      if (error.response.status === 500) {
+        return alert("Sorry, an internal error has occurred");
       }
-    }
-  }
+    })}
 
   return (
     <Container>
@@ -81,7 +83,7 @@ export default function SignUp() {
             type="url"
             placeholder="picture url"
             name="image"
-            value={formData.picture}
+            value={formData.image}
             onChange={handleChange}
             disabled={isDisabled}
           />
@@ -96,9 +98,16 @@ export default function SignUp() {
 }
 
 const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 375px) {
+    flex-direction: column;
+  }
 `;
 
 const Linkr = styled.p`
@@ -108,10 +117,14 @@ const Linkr = styled.p`
   line-height: 117px;
   letter-spacing: 0.05em;
   color: #ffffff;
+
+  @media (max-width: 375px) {
+    font-size: 76px;
+  }
 `;
 
 const Motto = styled.div`
-  width: 442px;
+  width: 100%;
   height: 128px;
 
   font-family: "Oswald";
@@ -119,6 +132,12 @@ const Motto = styled.div`
   font-size: 43px;
   line-height: 64px;
   color: #ffffff;
+
+  @media (max-width: 375px) {
+    font-size: 23px;
+    line-height: 34px;
+    width: 70%;
+  }
 `;
 
 const ContainerLogin = styled.div`
@@ -126,6 +145,13 @@ const ContainerLogin = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 1024px;
-  margin-right: 55px;
+
+  width: 29%;
+  height: 100%;
+
+  @media (max-width: 375px) {
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 40px;
+  }
 `;

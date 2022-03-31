@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { HeartOutline, Heart, ChatbubblesOutline, SendOutline} from "react-ionicons";
+import { FaRegHeart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
 import DeletePost from "./DeletePost.js";
 import EditPost from "./EditPost.js";
@@ -8,6 +11,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Posts(props) {
+
 
     const navigate = useNavigate();
     const [comment, setComment] = useState('');
@@ -57,14 +61,14 @@ export default function Posts(props) {
                   }}
                 />
                 {post.likes.find((like) => like.userId.toString() === props.userId) ? (
-                  <Heart
+                  <FaHeart
                     onClick={() => likePost(post.id, post.likes, props.userId)}
                     color={"#ef2929"}
                     height="20px"
                     width="20px"
                   />
                 ) : (
-                  <HeartOutline
+                  <FaRegHeart
                   onClick={() => likePost(post.id, post.likes, props.userId)}
                   color={"#FFFFFF"}
                   height="20px"
@@ -298,6 +302,7 @@ export default function Posts(props) {
   `;
 
   const ContainerPost = styled.div`
+
   width: 620px;
   border-radius: 16px;
 
@@ -432,42 +437,52 @@ const Content = styled.div`
 `;
 
 const TextsLink = styled.div`
-  height: 100%;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
 
-  gap: 7px;
-  padding: 18px 19px;
+    height: 100%;
 
-  h2 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    color: #ffffff;
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 
-  h3 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    color: #9b9595;
-  }
+    gap: 7px;
+    padding: 18px 19px;
 
-  h4 {
-    font-family: "Lato";
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    color: #cecece;
+    h2{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #FFFFFF;
 
-    margin-top: 12px;
-  }
-`;
+    }
+
+
+    h3{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        color: #9B9595;
+    }
+
+    span {
+        font-weight: 700;
+        color: #000000;
+    }
+
+    h4{
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        color: #CECECE;
+
+        margin-top: 12px;
+    }
+
+`
 
 const LinkDiv = styled.div`
   box-sizing: border-box;
@@ -492,3 +507,8 @@ const LinkDiv = styled.div`
   }
 `;
 
+
+const StyledHashtag = styled.span`
+  font-weight: 700;
+  color: #ffffff;
+`;
