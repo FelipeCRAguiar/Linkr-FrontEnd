@@ -5,6 +5,7 @@ import Posts from "../components/Posts.js";
 import { useNavigate } from "react-router-dom";
 import FeedPosts from "../components/FeedPosts.js";
 import AuthContext from "../contexts/AuthContext.js";
+import Trends from "../components/Trends.js";
 
 
 export default function Timeline() {
