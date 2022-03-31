@@ -13,7 +13,7 @@ export default function FeedPosts() {
 
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:4000/posts", config);
+    const promise = axios.get("https://back-project-linkr.herokuapp.com/posts", config);
 
     promise.then((response) => {
       setPosts(response.data);
