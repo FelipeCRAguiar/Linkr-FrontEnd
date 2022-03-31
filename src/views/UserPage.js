@@ -3,6 +3,7 @@ import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from 'react-router-dom';
 import styled from "styled-components";
+import Trends from "../components/Trends.js";
 import UserPosts from "../components/UserPosts.js";
 import AuthContext from "../contexts/AuthContext.js";
 
@@ -10,7 +11,6 @@ export default function UserPage() {
   const { id } = useParams()
   const { token } = useContext(AuthContext);
   const [user, setUser] = useState({})
-  console.log(id)
 
   useEffect(() => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
@@ -30,11 +30,15 @@ export default function UserPage() {
     <Container>
       <Content>
         <PageTitle>
-          <UserImage src={user.image}/>
-          <span>{user.username}'s posts</span>
+          <UserContainer>
+            <UserImage src={user.image}/>
+            <span>{user.username}'s posts</span>
+          </UserContainer>
+          <FollowButton>Follow</FollowButton>
         </PageTitle>
         <UserPosts id={id}/>
       </Content>
+      <Trends />
     </Container>
   );
 }
@@ -44,11 +48,14 @@ const Container = styled.div`
   background: #333333;
   margin-top: 70px;
   display: flex;
+  gap: 15px;
   min-height: calc(100vh - 70px);
-  justify-content: center;
+  justify-content: center; 
+  position: absolute;
 `;
 
 const PageTitle = styled.h2`
+  width: 936px;
   font-size: 32px;
   font-family: "Oswald", normal;
   color: white;
@@ -56,6 +63,9 @@ const PageTitle = styled.h2`
   font-weight: 700;
   font-size: 43px;
   line-height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Content = styled.div`
@@ -72,3 +82,40 @@ const UserImage = styled.img`
 
   border-radius: 100px;
 `;
+
+const FollowButton = styled.button`
+  width: 112px;
+  height: 31px;
+  background-color: #1877F2;
+  border-radius: 5px;
+  border: none;
+
+  font-family: 'Lato';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FFFFFF;
+`
+
+const UnfollowButton = styled.button`
+  width: 112px;
+  height: 31px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  border: none;
+
+  font-family: 'Lato';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: #1877F2;
+`
+
+const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: 18px;
+  }
+`
