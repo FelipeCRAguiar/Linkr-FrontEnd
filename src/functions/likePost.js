@@ -5,16 +5,18 @@ export function likePost(postId, likes, userId) {
 
     if (isLiked) {
       const promise = axios.delete(`
-        http://localhost:4000/unlike/${postId}/${userId}`
+      https://back-project-linkr.herokuapp.com/unlike/${postId}/${userId}`
       );
 
-      promise.then((response) => {});
+      promise.then((response) => {
+
+      });
       promise.catch((error) => {
         console.log(error);
       });
     } else {
       const promise = axios.post(`
-        http://localhost:4000/like/${postId}/${userId}`
+      https://back-project-linkr.herokuapp.com/like/${postId}/${userId}`
       );
       
       promise.then((response) => {});
