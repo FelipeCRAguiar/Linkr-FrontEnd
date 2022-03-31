@@ -95,7 +95,7 @@ export default function Posts(props) {
                   height="20px"
                   width="20px"
                   />
-                  <p>{post.comments.length} comments</p>
+                  <p>{post.comments && post.comments.length} comments</p>
               </ProfilePicContainer>
               <Content>
                 <h1
@@ -127,7 +127,7 @@ export default function Posts(props) {
             {commentsToShow.find(id => id === post.id) 
             &&
             <ContainerComments>
-            {post.comments.filter(comments => comments.postId === post.id).map(comments => (           
+            {post.comments && post.comments.filter(comments => comments.postId === post.id).map(comments => (           
                     <CommentContainer>
                       <ProfilePic>
                         <img src={comments.image}/>

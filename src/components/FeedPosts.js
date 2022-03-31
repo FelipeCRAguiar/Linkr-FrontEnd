@@ -24,8 +24,6 @@ export default function FeedPosts() {
     });
   }, [error, token, userId]);
 
-  
-
   while (posts === null) {
     return (
       <Loading>
