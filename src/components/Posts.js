@@ -29,7 +29,7 @@ export default function Posts(props) {
     function insertComment(postId, userId, index) {
 
       const promise = axios.post(
-        `https://back-project-linkr.herokuapp.com/comment/${postId}/${userId}`, {comment: comment[index]}
+        `http://localhost:400/comment/${postId}/${userId}`, {comment: comment[index]}
       );
 
       promise.then(() => {
@@ -95,7 +95,7 @@ export default function Posts(props) {
                   height="20px"
                   width="20px"
                   />
-                  <p>{post.comments.length} comments</p>
+                  <p>{post.comments && post.comments.length} comments</p>
               </ProfilePicContainer>
               <Content>
                 <h1

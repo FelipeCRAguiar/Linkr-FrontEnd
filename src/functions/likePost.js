@@ -5,7 +5,7 @@ export function likePost(postId, likes, userId) {
 
     if (isLiked) {
       const promise = axios.delete(`
-      https://back-project-linkr.herokuapp.com/unlike/${postId}/${userId}`
+      http://localhost:400/unlike/${postId}/${userId}`
       );
 
       promise.then((response) => {
@@ -16,7 +16,7 @@ export function likePost(postId, likes, userId) {
       });
     } else {
       const promise = axios.post(`
-      https://back-project-linkr.herokuapp.com/like/${postId}/${userId}`
+      http://localhost:400/like/${postId}/${userId}`
       );
       
       promise.then((response) => {});
