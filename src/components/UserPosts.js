@@ -4,6 +4,7 @@ import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import Posts from "./Posts";
+import { likePost } from "../functions/likePost";
 
 export default function UserPosts(props) {
   const { token, userId } = useContext(AuthContext);

@@ -13,23 +13,27 @@ import axios from "axios";
 
 export default function Posts(props) {
 
+    const commentsArray = [];
+    props.posts.forEach(() => commentsArray.push(''))
+    const clearCommentsArray = commentsArray;
 
     const navigate = useNavigate();
-    const [comment, setComment] = useState('');
+    const [comment, setComment] = useState(commentsArray);
     const [commentsToShow, setCommentsToShow] = useState([]);
 
-    function handleChange(e) {
-      setComment(e.target.value);
+    function handleChange(e, index) {
+      commentsArray[index] = e.target.value
+      setComment(commentsArray);
     }
     
-    function insertComment(postId, userId) {
+    function insertComment(postId, userId, index) {
 
       const promise = axios.post(
-        `http://localhost:4000/comment/${postId}/${userId}`, {comment: comment}
+        `http://localhost:4000/comment/${postId}/${userId}`, {comment: comment[index]}
       );
 
       promise.then(() => {
-        setComment('');
+        setComment(clearCommentsArray);
         console.log('chegou aqui')
       });
       promise.catch((error) => {
@@ -70,10 +74,10 @@ export default function Posts(props) {
                   />
                 ) : (
                   <FaRegHeart
-                  onClick={() => likePost(post.id, post.likes, props.userId)}
-                  color={"#FFFFFF"}
-                  height="20px"
-                  width="20px"
+                    onClick={() => likePost(post.id, post.likes, props.userId)}
+                    color={"#FFFFFF"}
+                    height="20px"
+                    width="20px"
                   />
                 )}
                 <p>{post.likes.length} likes</p>
@@ -147,12 +151,12 @@ export default function Posts(props) {
                           type="text"
                           placeholder="write a comment..."
                           name="comment"
-                          value={comment}
-                          onChange={handleChange}
+                          value={comment[props.posts.indexOf(post)]}
+                          onChange={(e) => handleChange(e, props.posts.indexOf(post))}
                         />
                         <IoIosSend
                           cssClasses="send"
-                          onClick={() => insertComment(post.id, props.userId)}
+                          onClick={() => insertComment(post.id, props.userId, props.posts.indexOf(post))}
                           color={"#FFFFFF"}
                           height="15px"
                           width="15px"

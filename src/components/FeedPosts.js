@@ -13,7 +13,7 @@ export default function FeedPosts() {
 
 
   useEffect(() => {
-    const promise = axios.get("https://back-project-linkr.herokuapp.com/posts", config);
+    const promise = axios.get("http://localhost:4000/posts", config);
 
     promise.then((response) => {
       setPosts(response.data);
@@ -23,6 +23,8 @@ export default function FeedPosts() {
       setError(true);
     });
   }, [error, token, userId]);
+
+  
 
   while (posts === null) {
     return (
@@ -47,6 +49,7 @@ export default function FeedPosts() {
       </Loading>
     );
   } else if (error) {
+    
     return (
       <Loading>
         <h1>
