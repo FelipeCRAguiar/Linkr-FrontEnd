@@ -8,6 +8,7 @@ import styled from "styled-components";
 export default function FeedPosts() {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
+  const [followeds, setFolloweds] = useState(true);
   const [error, setError] = useState(false);
   const config = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -16,10 +17,12 @@ export default function FeedPosts() {
     const promise = axios.get("https://back-project-linkr.herokuapp.com/posts", config);
 
     promise.then((response) => {
-      setPosts(response.data);
+        if (response.status === 204) {
+          setFolloweds(false)
+        }
+        setPosts(response.data);
     });
     promise.catch(() => {
-      console.log(error);
       setError(true);
     });
   }, [error, token, userId]);
@@ -40,10 +43,16 @@ export default function FeedPosts() {
     );
   }
 
-  if (posts.length === 0) {
+  if (followeds === false){
     return (
       <Loading>
-        <h1>There are no posts yet</h1>
+        <h1>You don't follow anyone yet. Search for new friends!</h1>
+      </Loading>
+    );
+  } else if (posts.length === 0) {
+    return (
+      <Loading>
+        <h1>No posts found from your friends</h1>
       </Loading>
     );
   } else if (error) {
