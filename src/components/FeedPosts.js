@@ -22,7 +22,9 @@ export default function FeedPosts() {
       console.log(error);
       setError(true);
     });
-  }, [error, token, userId, posts]);
+  }, [error, token, userId]);
+
+  
 
   while (posts === null) {
     return (
@@ -47,6 +49,7 @@ export default function FeedPosts() {
       </Loading>
     );
   } else if (error) {
+    
     return (
       <Loading>
         <h1>

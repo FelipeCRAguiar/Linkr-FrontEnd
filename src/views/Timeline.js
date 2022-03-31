@@ -2,7 +2,6 @@ import React from "react";
 import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
 import Posts from "../components/Posts.js";
-import Trends from "../components/Trends.js";
 import { useNavigate } from "react-router-dom";
 import FeedPosts from "../components/FeedPosts.js";
 import AuthContext from "../contexts/AuthContext.js";

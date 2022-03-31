@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { IoChevronDown } from "react-icons/io5";
+import { IoIosArrowDown } from 'react-icons/io';
+import { IconContext } from "react-icons";
 
 import AuthContext from "../contexts/AuthContext";
 
@@ -13,7 +14,9 @@ export default function ArrowButton() {
 
     return (
         <ButtonBox triggered={trigger} onClick={ToggleSwitch} >
-            <IoChevronDown size="1.8em" />
+            <IconContext.Provider value={{ color: "white", size: "28px" }}>
+                <IoIosArrowDown />
+            </IconContext.Provider>
         </ButtonBox>
     );
 }
