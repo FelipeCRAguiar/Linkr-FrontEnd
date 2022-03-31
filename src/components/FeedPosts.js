@@ -22,7 +22,7 @@ export default function FeedPosts() {
       console.log(error);
       setError(true);
     });
-  }, [error, token, userId, posts]);
+  }, [error, token, userId]);
 
   while (posts === null) {
     return (
