@@ -54,7 +54,7 @@ export default function Posts(props) {
     }
     
     return (
-        props.posts.map((post) => (
+        props.posts.map(post => (
           <Container key={post.id}>
             <ContainerPost>
               <ProfilePicContainer>
