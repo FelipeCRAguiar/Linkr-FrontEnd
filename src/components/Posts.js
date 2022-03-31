@@ -13,23 +13,27 @@ import axios from "axios";
 
 export default function Posts(props) {
 
+    const commentsArray = [];
+    props.posts.forEach(() => commentsArray.push(''))
+    const clearCommentsArray = commentsArray;
 
     const navigate = useNavigate();
-    const [comment, setComment] = useState('');
+    const [comment, setComment] = useState(commentsArray);
     const [commentsToShow, setCommentsToShow] = useState([]);
 
-    function handleChange(e) {
-      setComment(e.target.value);
+    function handleChange(e, index) {
+      commentsArray[index] = e.target.value
+      setComment(commentsArray);
     }
     
-    function insertComment(postId, userId) {
+    function insertComment(postId, userId, index) {
 
       const promise = axios.post(
-        `http://localhost:4000/comment/${postId}/${userId}`, {comment: comment}
+        `https://back-project-linkr.herokuapp.com/comment/${postId}/${userId}`, {comment: comment[index]}
       );
 
       promise.then(() => {
-        setComment('');
+        setComment(clearCommentsArray);
         console.log('chegou aqui')
       });
       promise.catch((error) => {
@@ -50,7 +54,7 @@ export default function Posts(props) {
     }
     
     return (
-        props.posts.map((post) => (
+        props.posts.map(post => (
           <Container key={post.id}>
             <ContainerPost>
               <ProfilePicContainer>
@@ -70,10 +74,10 @@ export default function Posts(props) {
                   />
                 ) : (
                   <FaRegHeart
-                  onClick={() => likePost(post.id, post.likes, props.userId)}
-                  color={"#FFFFFF"}
-                  height="20px"
-                  width="20px"
+                    onClick={() => likePost(post.id, post.likes, props.userId)}
+                    color={"#FFFFFF"}
+                    height="20px"
+                    width="20px"
                   />
                 )}
                 <p>{post.likes.length} likes</p>
@@ -91,7 +95,7 @@ export default function Posts(props) {
                   height="20px"
                   width="20px"
                   />
-                  <p>{post.comments.length} comments</p>
+                  <p>{post.comments && post.comments.length} comments</p>
               </ProfilePicContainer>
               <Content>
                 <h1
@@ -123,7 +127,7 @@ export default function Posts(props) {
             {commentsToShow.find(id => id === post.id) 
             &&
             <ContainerComments>
-            {post.comments.filter(comments => comments.postId === post.id).map(comments => (           
+            {post.comments && post.comments.filter(comments => comments.postId === post.id).map(comments => (           
                     <CommentContainer>
                       <ProfilePic>
                         <img src={comments.image}/>
@@ -147,12 +151,12 @@ export default function Posts(props) {
                           type="text"
                           placeholder="write a comment..."
                           name="comment"
-                          value={comment}
-                          onChange={handleChange}
+                          value={comment[props.posts.indexOf(post)]}
+                          onChange={(e) => handleChange(e, props.posts.indexOf(post))}
                         />
                         <IoIosSend
                           cssClasses="send"
-                          onClick={() => insertComment(post.id, props.userId)}
+                          onClick={() => insertComment(post.id, props.userId, props.posts.indexOf(post))}
                           color={"#FFFFFF"}
                           height="15px"
                           width="15px"

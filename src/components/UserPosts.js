@@ -5,6 +5,8 @@ import { Oval } from "react-loader-spinner";
 import Posts from "./Posts";
 import styled from "styled-components";
 
+
+
 export default function FeedPosts(props) {
   const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);

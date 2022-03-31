@@ -47,6 +47,7 @@ export default function FeedPosts() {
       </Loading>
     );
   } else if (error) {
+    
     return (
       <Loading>
         <h1>
