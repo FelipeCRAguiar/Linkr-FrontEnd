@@ -18,8 +18,7 @@ export default function Trends(){
         const promise = axios.get('https://back-project-linkr.herokuapp.com/hashtags', config);
 
         promise.then(response => {
-            setTags(response.data.rows);
-            console.log(tags)
+            setTags(response.data);
         })
         promise.catch(
             console.log(error)

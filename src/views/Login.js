@@ -22,7 +22,11 @@ export default function Login() {
     setIsDisabled(true);
     navigate("/");
 
-    const promise = axios.post("http://localhost:4000/login", formData);
+    const promise = axios.post(
+      "https://back-project-linkr.herokuapp.com/login",
+      formData
+    );
+
     promise.then((response) => {
       setIsDisabled(false);
       navigate("/timeline");
@@ -68,7 +72,11 @@ export default function Login() {
             onChange={handleChange}
             disabled={isDisabled}
           />
-          <Button type="submit" disabled={isDisabled}>
+          <Button
+            type="submit"
+            style={{ cursor: "pointer" }}
+            disabled={isDisabled}
+          >
             Log In
           </Button>
         </Form>

@@ -1,17 +1,27 @@
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { FaRegHeart } from 'react-icons/fa';
-import { IoIosSend } from 'react-icons/io';
-import { IoChatbubblesOutline } from 'react-icons/io5';
-import { FaHeart } from 'react-icons/fa';
+import { FaRegHeart } from "react-icons/fa";
+import { IoIosSend } from "react-icons/io";
+import { IoChatbubblesOutline } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useNavigate } from "react-router-dom";
 import DeletePost from "./DeletePost.js";
 import EditPost from "./EditPost.js";
 import { likePost } from "../functions/likePost.js";
-import { useState } from "react";
 import axios from "axios";
+import AuthContext from "../contexts/AuthContext.js";
 
 export default function Posts(props) {
+  const commentsArray = [];
+  props.posts.forEach(() => commentsArray.push(""));
+  const clearCommentsArray = commentsArray;
+
+  const navigate = useNavigate();
+  const [comment, setComment] = useState(commentsArray);
+  const [commentsToShow, setCommentsToShow] = useState([]);
+  const { userId } = useContext(AuthContext);
+
 
     const commentsArray = [];
     props.posts.forEach(() => commentsArray.push(''))
@@ -31,7 +41,7 @@ export default function Posts(props) {
     function insertComment(postId, userId, index, setRender, render) {
 
       const promise = axios.post(
-        `http://localhost:4000/comment/${postId}/${userId}`, {comment: comment[index]}
+        `https://back-project-linkr.herokuapp.com/comment/${postId}/${userId}`, {comment: comment[index]}
       );
 
       promise.then(() => {
@@ -39,12 +49,11 @@ export default function Posts(props) {
         setRender(!render)
       });
       promise.catch((error) => {
-        console.log(error);
-        
+        console.log(error);       
       });
     }
 
-    function showComments(postId) {
+   function showComments(postId) {
       if(commentsToShow.find(id => id === postId)) {
       
         const newCommentsToShow = commentsToShow.filter(id => id !== postId)
@@ -173,153 +182,153 @@ export default function Posts(props) {
             
           ))
     );
-  }
 
-  const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 
-    gap: 30px;
+  gap: 30px;
+  margin-bottom: 50px;
 
-    margin-bottom: 50px;
-
-    @media (max-width: 620px) {
+  @media (max-width: 620px) {
     width: 100%;
   }
-  `;
 
-  const Input = styled.input`
-    width: 90%;
+`;
 
-    border: none;
-    background-color: transparent;
+const Input = styled.input`
+  width: 90%;
 
-    color: white
-  `;
+  border: none;
+  background-color: transparent;
 
-  const InputDiv = styled.div`
+  color: white;
+`;
+
+const InputDiv = styled.div`
+  height: 39px;
+  width: 90%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  margin-left: 5px;
+
+  border-radius: 8px;
+
+  background-color: #252525;
+
+  .send {
+    transform: rotate(-45deg);
+  }
+`;
+
+const CommentInputContainer = styled.div`
+  width: 90%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 20px;
+
+  img {
     height: 39px;
-    width: 90%;
+    width: 39px;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    border-radius: 100px;
+  }
+`;
 
-    padding: 0 10px;
+const ContainerComments = styled.div`
+  width: 620px;
 
-    margin-left: 5px;
+  border-radius: 16px;
 
-    border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    background-color: #252525;
 
-    .send{transform: rotate(-45deg);}
-  `;
+  padding-top: 47px;
+  margin-top: -70px;
+  padding-bottom: 30px;
 
-    const CommentInputContainer = styled.div`
-      width: 90%;
+  background-color: #1e1e1e;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding-top: 20px;
-
-      img{
-      height: 39px;
-      width: 39px;
-
-      border-radius: 100px;
-    }
-    `;
-
-  const ContainerComments = styled.div`
-    width: 620px;
-    
-    border-radius: 16px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    padding-top: 47px;
-    margin-top: -70px;
-    padding-bottom: 30px;
-
-    background-color: #1E1E1E;
-
-    @media (max-width: 620px) {
+@media (max-width: 620px) {
     width: 100%;
   }
-  `;
+`;
 
-  const CommentContainer = styled.div`
-    display: flex;
+const CommentContainer = styled.div`
+  display: flex;
 
-    padding: 12px 0;
+  padding: 12px 0;
 
-    width: 90%;
+  width: 90%;
 
-    border-bottom: solid 1px #353535;
+  border-bottom: solid 1px #353535;
 
-    h1{
-      font-family: "Lato";
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 16px;
-      color: #F3F3F3;
+  h1 {
+    font-family: "Lato";
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    color: #f3f3f3;
 
-      margin-bottom: 5px;
-    }
+    margin-bottom: 5px;
+  }
 
-    p{
-      font-family: "Lato";
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 16px;
-      color: #ACACAC;
-    }
-  `;
+  p {
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #acacac;
+  }
+`;
 
-  const ProfilePic = styled.div`
-    img{
-      height: 39px;
-      width: 39px;
+const ProfilePic = styled.div`
+  img {
+    height: 39px;
+    width: 39px;
 
-      border-radius: 100px;
-    }
+    border-radius: 100px;
+  }
 
-    width: 10%;
+  width: 10%;
 
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 5px;
-    box-sizing: border-box;
-  `;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 5px;
+  box-sizing: border-box;
+`;
 
-  const CommentBody = styled.div`
-    width: 90%;
-  `;
+const CommentBody = styled.div`
+  width: 90%;
+`;
 
-  const CommentName = styled.div`
+const CommentName = styled.div`
+  display: flex;
 
-    display: flex;
+  h2 {
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #565656;
 
-    h2{
-      font-family: "Lato";
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 16px;
-      color: #565656;
+    margin-left: 4px;
+  }
+`;
 
-      margin-left: 4px;
-    }
-  `;
-
-  const ContainerPost = styled.div`
-
+const ContainerPost = styled.div`
   width: 620px;
   border-radius: 16px;
 
@@ -331,17 +340,16 @@ export default function Posts(props) {
 
   z-index: 5;
 
-  .div-names{
+  .div-names {
     position: static;
-    
   }
 
   .div-link:hover {
     cursor: pointer;
   }
 
-  p:hover + .div-names{
-      display: flex;
+  p:hover + .div-names {
+    display: flex;
   }
 
   @media (max-width: 620px) {
@@ -352,44 +360,42 @@ export default function Posts(props) {
 `;
 
 const NamesBox = styled.div`
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
 
-    display: none;
-    flex-direction: column;
+  margin-top: 3px;
+
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-bottom: 5px solid white;
+  }
+
+  .names-box {
+    height: 24px;
+    width: 169px;
+
+    background-color: white;
+
+    border-radius: 3px;
+
+    display: flex;
+    justify-content: center;
     align-items: center;
-    z-index: 10;
 
-    margin-top: 3px;
-  
-    .triangle{
-        width: 0; 
-        height: 0; 
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        
-        border-bottom: 5px solid white;
+    .p-box-names {
+      font-family: "Lato";
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 13px;
+      color: #505050;
     }
-
-    .names-box{
-        height: 24px;
-        width: 169px;
-
-        background-color: white;
-
-        border-radius: 3px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .p-box-names{
-            font-family: "Lato";
-            font-weight: 400;
-            font-size: 11px;
-            line-height: 13px;
-            color: #505050;
-        }
-    }
-  
+  }
 `;
 
 const ProfilePicContainer = styled.div`
@@ -473,52 +479,47 @@ const Content = styled.div`
 `;
 
 const TextsLink = styled.div`
+  height: 100%;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 
-    height: 100%;
+  gap: 7px;
+  padding: 18px 19px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+  h2 {
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #ffffff;
+  }
 
-    gap: 7px;
-    padding: 18px 19px;
+  h3 {
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #9b9595;
+  }
 
-    h2{
-        font-family: 'Lato';
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-        color: #FFFFFF;
+  span {
+    font-weight: 700;
+    color: #000000;
+  }
 
-    }
+  h4 {
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #cecece;
 
-
-    h3{
-        font-family: 'Lato';
-        font-weight: 400;
-        font-size: 11px;
-        line-height: 13px;
-        color: #9B9595;
-    }
-
-    span {
-        font-weight: 700;
-        color: #000000;
-    }
-
-    h4{
-        font-family: 'Lato';
-        font-weight: 400;
-        font-size: 11px;
-        line-height: 13px;
-        color: #CECECE;
-
-        margin-top: 12px;
-    }
-
-`
+    margin-top: 12px;
+  }
+`;
 
 const LinkDiv = styled.div`
   box-sizing: border-box;
@@ -545,7 +546,6 @@ const LinkDiv = styled.div`
     height: 100%;
   }
 `;
-
 
 const StyledHashtag = styled.span`
   font-weight: 700;

@@ -37,7 +37,7 @@ export default function SignUp() {
       }
 
       if (error.response.status === 409) {
-        return alert("This username already exists");
+        return alert("This e-mail already exists");
       }
 
       if (error.response.status === 500) {
