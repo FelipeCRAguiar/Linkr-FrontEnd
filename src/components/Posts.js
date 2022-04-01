@@ -21,36 +21,41 @@ export default function Posts(props) {
   const navigate = useNavigate();
   const [comment, setComment] = useState(commentsArray);
   const [commentsToShow, setCommentsToShow] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { userId } = useContext(AuthContext);
+   
 
-  function handleChange(e, index) {
-    commentsArray[index] = e.target.value;
-    setComment(commentsArray);
-  }
-
-  function insertComment(postId, userId, index) {
-    const promise = axios.post(
-      `https://back-project-linkr.herokuapp.com/comment/${postId}/${userId}`,
-      { comment: comment[index] }
-    );
-
-    promise.then(() => {
-      setComment(clearCommentsArray);
-      console.log("chegou aqui");
-    });
-    promise.catch((error) => {
-      console.log(error);
-    });
-  }
-
-  function showComments(postId) {
-    if (commentsToShow.find((id) => id === postId)) {
-      const newCommentsToShow = commentsToShow.filter((id) => id !== postId);
-      setCommentsToShow(newCommentsToShow);
-    } else {
-      setCommentsToShow([...commentsToShow, postId]);
+    function handleChange(e, index) {
+      commentsArray[index] = e.target.value
+      setComment(commentsArray);
     }
-  }
+    
+    function insertComment(postId, userId, index, setRender, render) {
+
+      const promise = axios.post(
+        `https://back-project-linkr.herokuapp.com/comment/${postId}/${userId}`, {comment: comment[index]}
+      );
+
+      promise.then(() => {
+        setComment(clearCommentsArray);
+        setRender(!render)
+      });
+      promise.catch((error) => {
+        console.log(error);       
+      });
+    }
+
+   function showComments(postId) {
+      if(commentsToShow.find(id => id === postId)) {
+      
+        const newCommentsToShow = commentsToShow.filter(id => id !== postId)
+        setCommentsToShow(newCommentsToShow);
+
+      } else {
+        setCommentsToShow([...commentsToShow, postId, ])
+      }
+    }
+    
 
   return props.posts.map((post) => (
     <Container key={post.id}>
@@ -193,8 +198,12 @@ const Container = styled.div`
   align-items: flex-start;
 
   gap: 30px;
-
   margin-bottom: 50px;
+
+  @media (max-width: 620px) {
+    width: 100%;
+  }
+
 `;
 
 const Input = styled.input`
@@ -253,11 +262,16 @@ const ContainerComments = styled.div`
   flex-direction: column;
   align-items: center;
 
+
   padding-top: 47px;
   margin-top: -70px;
   padding-bottom: 30px;
 
   background-color: #1e1e1e;
+
+@media (max-width: 620px) {
+    width: 100%;
+  }
 `;
 
 const CommentContainer = styled.div`
@@ -345,6 +359,12 @@ const ContainerPost = styled.div`
   p:hover + .div-names {
     display: flex;
   }
+
+  @media (max-width: 620px) {
+    width: 100%;
+
+    border-radius: 0px;
+  }
 `;
 
 const NamesBox = styled.div`
@@ -387,7 +407,9 @@ const NamesBox = styled.div`
 `;
 
 const ProfilePicContainer = styled.div`
-  width: 86px;
+  width: 15%;
+
+  padding: 0px, 10px;
 
   display: flex;
   flex-direction: column;
@@ -415,13 +437,25 @@ const ProfilePicContainer = styled.div`
     margin-bottom: 15px;
   }
 
+  button{
+    
+
+    background-color: transparent;
+    border: none;
+  }
+
   .like-post:hover {
     cursor: pointer;
+  }
+
+  @media (max-width: 400px) {
+    width: 20%;
   }
 `;
 
 const Content = styled.div`
   height: 100%;
+  width: 85%;
 
   display: flex;
   flex-direction: column;
@@ -431,6 +465,7 @@ const Content = styled.div`
 
   gap: 7px;
   padding: 18px 0;
+  padding-right: 20px;
 
   h1 {
     font-family: "Lato";
@@ -497,8 +532,7 @@ const TextsLink = styled.div`
 const LinkDiv = styled.div`
   box-sizing: border-box;
 
-  width: 503px;
-  height: 155px;
+  width: 100%;
 
   border: solid 1px #4d4d4d;
   border-radius: 12px;
@@ -515,9 +549,13 @@ const LinkDiv = styled.div`
 
     margin-top: 2px;
   }
+
+  .img-div{
+    height: 100%;
+  }
 `;
 
 const StyledHashtag = styled.span`
   font-weight: 700;
   color: #ffffff;
-`;
+`

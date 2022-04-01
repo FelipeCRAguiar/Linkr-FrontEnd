@@ -11,7 +11,9 @@ export default function FeedPosts() {
   const [newPosts, setNewPosts] = useState({});
   const [followeds, setFolloweds] = useState(true);
   const [error, setError] = useState(false);
-  const { setNewPostsAlert } = useContext(AuthContext);
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const [render, setRender] = useState(false);
+  const { setNewPostsAlert, token, userId } = useContext(AuthContext);
 
   useEffect(() => {
     getPosts()
@@ -39,6 +41,7 @@ export default function FeedPosts() {
       setNewPostsAlert(newPosts.length - posts.length);
     }
   }, 15000);
+
 
   while (posts === null) {
     return (
@@ -78,7 +81,8 @@ export default function FeedPosts() {
       </Loading>
     );
   } else {
-    return <Posts posts={posts} />;
+
+    return <Posts posts={posts} userId={userId} setRender={setRender} render={render}/>
   }
 }
 

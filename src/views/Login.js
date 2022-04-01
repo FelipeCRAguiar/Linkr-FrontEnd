@@ -26,6 +26,7 @@ export default function Login() {
       "https://back-project-linkr.herokuapp.com/login",
       formData
     );
+
     promise.then((response) => {
       setIsDisabled(false);
       navigate("/timeline");

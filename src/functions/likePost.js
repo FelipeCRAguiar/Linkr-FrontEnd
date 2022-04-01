@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export function likePost(postId, likes, userId) {
+export function likePost(postId, likes, userId, setRender, render, setIsDisabled) {
     const isLiked = likes.find((like) => like.userId.toString() === userId);
+    setIsDisabled(true);
 
     if (isLiked) {
       const promise = axios.delete(`
@@ -9,7 +10,7 @@ export function likePost(postId, likes, userId) {
       );
 
       promise.then((response) => {
-
+        setRender(!render)
       });
       promise.catch((error) => {
         console.log(error);
@@ -19,7 +20,9 @@ export function likePost(postId, likes, userId) {
       https://back-project-linkr.herokuapp.com/like/${postId}/${userId}`
       );
       
-      promise.then((response) => {});
+      promise.then((response) => {
+        setRender(!render)
+      });
       promise.catch((error) => {
         console.log(error);
       });
