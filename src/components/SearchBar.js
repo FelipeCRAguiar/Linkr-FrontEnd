@@ -16,7 +16,7 @@ export default function SearchBar() {
 
   useEffect(() => {
     if (username) {
-      const promise = axios.get(`https://back-project-linkr.herokuapp.com/username?name=${username}`, {userId: userId}, config)
+      const promise = axios.get(`https://back-project-linkr.herokuapp.com/username/${userId}?name=${username}`, config)
       promise.then((response) => {
         setUserList(response.data)
       })
