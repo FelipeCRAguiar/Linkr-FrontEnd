@@ -1,28 +1,47 @@
-import { useContext, useState, useEffect } from "react";
-import AuthContext from "../contexts/AuthContext";
-import axios from "axios";
+import { useState, useEffect, useContext } from "react";
+import { getPosts } from "../services";
 import { Oval } from "react-loader-spinner";
 import Posts from "./Posts";
 import styled from "styled-components";
+import useInterval from "use-interval";
+import AuthContext from "../contexts/AuthContext.js";
 
 export default function FeedPosts() {
-  const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
+  const [newPosts, setNewPosts] = useState({});
+  const [followeds, setFolloweds] = useState(true);
   const [error, setError] = useState(false);
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const [render, setRender] = useState(false);
+  const { setNewPostsAlert } = useContext(AuthContext);
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:4000/posts", config);
+    getPosts()
+      .then((response) => {
+        if (response.status === 204) {
+          setFolloweds(false);
+        }
+        setPosts(response.data);
+      })
+      .catch(() => {
+        setError(true);
+      });
+  }, []);
 
-    promise.then((response) => {
-      setPosts(response.data);
-    });
-    promise.catch(() => {
-      console.log(error);
-      setError(true);
-    });
-  }, [error, token, userId, render]);
+  useInterval(() => {
+    getPosts()
+      .then((response) => {
+        setNewPosts(response.data);
+      })
+      .catch(() => {
+        setError(true);
+      });
+
+    if (newPosts.length > posts.length) {
+      setNewPostsAlert(newPosts.length - posts.length);
+    }
+  }, 15000);
+
 
   while (posts === null) {
     return (
@@ -40,14 +59,19 @@ export default function FeedPosts() {
     );
   }
 
-  if (posts.length === 0) {
+  if (followeds === false) {
     return (
       <Loading>
-        <h1>There are no posts yet</h1>
+        <h1>You don't follow anyone yet. Search for new friends!</h1>
+      </Loading>
+    );
+  } else if (posts.length === 0) {
+    return (
+      <Loading>
+        <h1>No posts found from your friends</h1>
       </Loading>
     );
   } else if (error) {
-    
     return (
       <Loading>
         <h1>
@@ -57,6 +81,7 @@ export default function FeedPosts() {
       </Loading>
     );
   } else {
+
     return <Posts posts={posts} userId={userId} setRender={setRender} render={render}/>
   }
 }
@@ -74,5 +99,3 @@ const Loading = styled.div`
     color: white;
   }
 `;
-
-

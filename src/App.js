@@ -11,7 +11,6 @@ import UserPage from "./views/UserPage";
 import Hashtags from "./views/Hashtags";
 
 export default function App() {
-
   const persistedtoken = localStorage.getItem("token");
   const persistedAvatar = localStorage.getItem("avatar");
   const persistedId = localStorage.getItem("userId");
@@ -20,7 +19,8 @@ export default function App() {
   const [avatar, setAvatar] = useState(persistedAvatar);
   const [userId, setUserId] = useState(persistedId);
   const [trigger, setTrigger] = useState(false);
-  
+  const [newPostsAlert, setNewPostsAlert] = useState(null);
+
   function setAndPersistToken(token, avatar, userId) {
     setToken(token);
     localStorage.setItem("token", token);
@@ -31,7 +31,6 @@ export default function App() {
   }
 
   return (
-
     <AuthContext.Provider
       value={{
         token,
@@ -43,18 +42,19 @@ export default function App() {
         setUserId,
         trigger,
         setTrigger,
+        newPostsAlert,
+        setNewPostsAlert,
       }}
     >
-
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/timeline" element={[<Header />, <Timeline />]} />
           <Route path="/user/:id" element={[<Header />, <UserPage />]} />
-          <Route path="/hashtag" element={<Hashtags/>} />
+          <Route path="/hashtag" element={<Hashtags />} />
         </Routes>
       </BrowserRouter>
-    // </AuthContext.Provider>
+    </AuthContext.Provider>
   );
 }
