@@ -25,7 +25,7 @@ export default function CreatePost() {
     const config = { headers: { Authorization: `Bearer ${token}` } };
 
     const promise = axios.post(
-      "https://back-project-linkr.herokuapp.com/posts",
+      "http://localhost:4000/posts",
       {
         text: postDescription,
         link: postURL,
