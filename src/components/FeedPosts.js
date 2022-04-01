@@ -13,7 +13,7 @@ export default function FeedPosts() {
   const [error, setError] = useState(false);
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const [render, setRender] = useState(false);
-  const { setNewPostsAlert } = useContext(AuthContext);
+  const { setNewPostsAlert, token, userId } = useContext(AuthContext);
 
   useEffect(() => {
     getPosts()

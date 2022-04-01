@@ -20,6 +20,7 @@ export default function Posts(props) {
   const navigate = useNavigate();
   const [comment, setComment] = useState(commentsArray);
   const [commentsToShow, setCommentsToShow] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { userId } = useContext(AuthContext);
    
 

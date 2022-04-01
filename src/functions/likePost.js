@@ -13,7 +13,7 @@ export function likePost(postId, likes, userId, setRender, render, setIsDisabled
         setRender(!render)
       });
       promise.catch((error) => {
-        console.log(error);w
+        console.log(error);
       });
     } else {
       const promise = axios.post(`
