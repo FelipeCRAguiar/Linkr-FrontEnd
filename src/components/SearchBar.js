@@ -8,7 +8,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
 export default function SearchBar() {
-  const { token } = useContext(AuthContext)
+  const { token, userId } = useContext(AuthContext)
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
@@ -16,7 +16,7 @@ export default function SearchBar() {
 
   useEffect(() => {
     if (username) {
-      const promise = axios.get(`https://back-project-linkr.herokuapp.com/username?name=${username}`, config)
+      const promise = axios.get(`https://back-project-linkr.herokuapp.com/username?name=${username}`, {userId: userId}, config)
       promise.then((response) => {
         setUserList(response.data)
       })
