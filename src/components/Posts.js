@@ -20,18 +20,9 @@ export default function Posts(props) {
   const navigate = useNavigate();
   const [comment, setComment] = useState(commentsArray);
   const [commentsToShow, setCommentsToShow] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { userId } = useContext(AuthContext);
-
-
-    const commentsArray = [];
-    props.posts.forEach(() => commentsArray.push(''))
-    const clearCommentsArray = commentsArray;
-
-    const navigate = useNavigate();
-    const [comment, setComment] = useState(commentsArray);
-    const [commentsToShow, setCommentsToShow] = useState([]);
-    const [isDisabled, setIsDisabled] = useState(false);
-    
+   
 
     function handleChange(e, index) {
       commentsArray[index] = e.target.value
@@ -182,6 +173,8 @@ export default function Posts(props) {
             
           ))
     );
+
+          }
 
 const Container = styled.div`
   display: flex;
@@ -550,4 +543,4 @@ const LinkDiv = styled.div`
 const StyledHashtag = styled.span`
   font-weight: 700;
   color: #ffffff;
-`;
+`
