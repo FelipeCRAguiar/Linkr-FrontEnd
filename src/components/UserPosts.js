@@ -1,30 +1,42 @@
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
-import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import Posts from "./Posts";
 import styled from "styled-components";
-
-
+import { getUserPosts } from "../services";
+import useInterval from "use-interval";
 
 export default function FeedPosts(props) {
-  const { token, userId } = useContext(AuthContext);
+  const { userId, setNewPostsAlert } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
+  const [newPosts, setNewPosts] = useState({});
   const [error, setError] = useState(false);
-  const config = { headers: { Authorization: `Bearer ${token}` } };
-
 
   useEffect(() => {
-    const promise = axios.get(`https://back-project-linkr.herokuapp.com/user/${props.id}`, config);
+    getUserPosts(props.id)
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch(() => {
+        console.log(error);
+        setError(true);
+      });
+  }, [error, props.id]);
 
-    promise.then((response) => {
-      setPosts(response.data);
-    });
-    promise.catch(() => {
-      console.log(error);
-      setError(true);
-    });
-  }, [error, token, userId]);
+  useInterval(() => {
+    getUserPosts(props.id)
+      .then((response) => {
+        setNewPosts(response.data);
+      })
+      .catch(() => {
+        console.log(error);
+        setError(true);
+      });
+
+    if (newPosts.length > posts.length) {
+      setNewPostsAlert(newPosts.length - posts.length);
+    }
+  }, 15000);
 
   while (posts === null) {
     return (
@@ -58,7 +70,7 @@ export default function FeedPosts(props) {
       </Loading>
     );
   } else {
-    return <Posts posts={posts} userId={userId}/>
+    return <Posts posts={posts} userId={userId} />;
   }
 }
 

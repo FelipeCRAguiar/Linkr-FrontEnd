@@ -1,26 +1,39 @@
 import React from "react";
 import CreatePost from "../components/CreatePost.js";
 import styled from "styled-components";
-import Posts from "../components/Posts.js";
 import { useNavigate } from "react-router-dom";
 import FeedPosts from "../components/FeedPosts.js";
 import AuthContext from "../contexts/AuthContext.js";
 import Trends from "../components/Trends.js";
-
+import { FiRefreshCw } from "react-icons/fi";
 
 export default function Timeline() {
-  const { trigger, setTrigger } = React.useContext(AuthContext);
+  const { trigger, setTrigger, newPostsAlert } = React.useContext(AuthContext);
   const navigate = useNavigate();
-  
+
   return (
     <Container onClick={() => setTrigger(false)}>
       <Content>
-        {trigger &&  <LogoutButton onClick={() => navigate("/") }>Logout</LogoutButton>}
+        {trigger && (
+          <LogoutButton onClick={() => navigate("/")}>Logout</LogoutButton>
+        )}
         <PageTitle>timeline</PageTitle>
         <NewPost>
           <CreatePost />
         </NewPost>
-        <FeedPosts/>
+        {newPostsAlert > 0 ? (
+          <NewPostsAlertBox onClick={() => navigate(0)}>
+            <p>{newPostsAlert} new posts, load more!</p>
+            <FiRefreshCw
+              color="white"
+              size="1.2em"
+              style={{
+                marginLeft: 14,
+              }}
+            />
+          </NewPostsAlertBox>
+        ) : null}
+        <FeedPosts />
       </Content>
       <Trends />
     </Container>
@@ -34,7 +47,7 @@ const Container = styled.div`
   display: flex;
   gap: 15px;
   min-height: calc(100vh - 70px);
-  justify-content: center; 
+  justify-content: center;
   position: absolute;
 `;
 
@@ -73,15 +86,36 @@ const LogoutButton = styled.div`
   position: absolute;
   background-color: #171717;
   border-bottom-left-radius: 20px;
-  color: #FFFFFF;
-  font-family: 'Lato';
+  color: #ffffff;
+  font-family: "Lato";
   font-size: 17px;
-  
-  
-  display: ${props => props.triggered ? "none" : "inherit"};
+
+  display: ${(props) => (props.triggered ? "none" : "inherit")};
   right: 0;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const NewPostsAlertBox = styled.div`
+  width: 100%;
+  height: 61px;
+  left: 241px;
+  top: 481px;
+  background: #1877f2;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 17px;
 `;
