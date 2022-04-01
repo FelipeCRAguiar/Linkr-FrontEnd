@@ -21,7 +21,7 @@ export default function DeletePost({ post }) {
       borderRadius: "10px",
       color: "white",
     },
-    overlay: { zIndex: 3 },
+    overlay: { zIndex: 10 },
   };
 
   return (
