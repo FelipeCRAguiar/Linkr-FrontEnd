@@ -10,10 +10,10 @@ export default function FeedPosts() {
   const [posts, setPosts] = useState(null);
   const [error, setError] = useState(false);
   const config = { headers: { Authorization: `Bearer ${token}` } };
-
+  const [render, setRender] = useState(false);
 
   useEffect(() => {
-    const promise = axios.get("https://back-project-linkr.herokuapp.com/posts", config);
+    const promise = axios.get("http://localhost:4000/posts", config);
 
     promise.then((response) => {
       setPosts(response.data);
@@ -22,7 +22,7 @@ export default function FeedPosts() {
       console.log(error);
       setError(true);
     });
-  }, [error, token, userId]);
+  }, [error, token, userId, render]);
 
   while (posts === null) {
     return (
@@ -57,7 +57,7 @@ export default function FeedPosts() {
       </Loading>
     );
   } else {
-    return <Posts posts={posts} userId={userId}/>
+    return <Posts posts={posts} userId={userId} setRender={setRender} render={render}/>
   }
 }
 

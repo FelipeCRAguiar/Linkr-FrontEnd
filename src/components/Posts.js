@@ -20,6 +20,7 @@ export default function Posts(props) {
     const navigate = useNavigate();
     const [comment, setComment] = useState(commentsArray);
     const [commentsToShow, setCommentsToShow] = useState([]);
+    
 
     function handleChange(e, index) {
       commentsArray[index] = e.target.value
@@ -29,7 +30,7 @@ export default function Posts(props) {
     function insertComment(postId, userId, index) {
 
       const promise = axios.post(
-        `https://back-project-linkr.herokuapp.com/comment/${postId}/${userId}`, {comment: comment[index]}
+        `http://localhost:4000/comment/${postId}/${userId}`, {comment: comment[index]}
       );
 
       promise.then(() => {
@@ -49,7 +50,7 @@ export default function Posts(props) {
         setCommentsToShow(newCommentsToShow);
 
       } else {
-        setCommentsToShow([...commentsToShow, postId])
+        setCommentsToShow([...commentsToShow, postId, ])
       }
     }
     
@@ -66,19 +67,21 @@ export default function Posts(props) {
                   }}
                 />
                 {post.likes.find((like) => like.userId.toString() === props.userId) ? (
-                  <FaHeart
-                    onClick={() => likePost(post.id, post.likes, props.userId)}
-                    color={"#ef2929"}
-                    height="20px"
-                    width="20px"
-                  />
+                  <button onClick={() => likePost(post.id, post.likes, props.userId, props.setRender, props.render)}>
+                    <FaHeart 
+                      color={"#ef2929"}
+                      height="20px"
+                      width="20px"
+                    />
+                  </button>
                 ) : (
-                  <FaRegHeart
-                    onClick={() => likePost(post.id, post.likes, props.userId)}
-                    color={"#FFFFFF"}
-                    height="20px"
-                    width="20px"
-                  />
+                  <button onClick={() => likePost(post.id, post.likes, props.userId, props.setRender, props.render)}>
+                    <FaRegHeart
+                      color={"#FFFFFF"}
+                      height="20px"
+                      width="20px"
+                    />
+                  </button>
                 )}
                 <p>{post.likes.length} likes</p>
                 <NamesBox className="div-names">
@@ -401,6 +404,13 @@ const ProfilePicContainer = styled.div`
 
     margin-top: 3px;
     margin-bottom: 15px;
+  }
+
+  button{
+    
+
+    background-color: transparent;
+    border: none;
   }
 
   .like-post:hover {
