@@ -1,31 +1,44 @@
-import { useContext, useState, useEffect } from "react";
-import AuthContext from "../contexts/AuthContext";
-import axios from "axios";
+import { useState, useEffect, useContext } from "react";
+import { getPosts } from "../services";
 import { Oval } from "react-loader-spinner";
 import Posts from "./Posts";
 import styled from "styled-components";
+import useInterval from "use-interval";
+import AuthContext from "../contexts/AuthContext.js";
 
 export default function FeedPosts() {
-  const { token, userId } = useContext(AuthContext);
   const [posts, setPosts] = useState(null);
+  const [newPosts, setNewPosts] = useState({});
   const [followeds, setFolloweds] = useState(true);
   const [error, setError] = useState(false);
-  const config = { headers: { Authorization: `Bearer ${token}` } };
-
+  const { setNewPostsAlert } = useContext(AuthContext);
 
   useEffect(() => {
-    const promise = axios.get("https://back-project-linkr.herokuapp.com/posts", config);
-
-    promise.then((response) => {
+    getPosts()
+      .then((response) => {
         if (response.status === 204) {
-          setFolloweds(false)
+          setFolloweds(false);
         }
         setPosts(response.data);
-    });
-    promise.catch(() => {
-      setError(true);
-    });
-  }, [error, token, userId]);
+      })
+      .catch(() => {
+        setError(true);
+      });
+  }, []);
+
+  useInterval(() => {
+    getPosts()
+      .then((response) => {
+        setNewPosts(response.data);
+      })
+      .catch(() => {
+        setError(true);
+      });
+
+    if (newPosts.length > posts.length) {
+      setNewPostsAlert(newPosts.length - posts.length);
+    }
+  }, 15000);
 
   while (posts === null) {
     return (
@@ -43,7 +56,7 @@ export default function FeedPosts() {
     );
   }
 
-  if (followeds === false){
+  if (followeds === false) {
     return (
       <Loading>
         <h1>You don't follow anyone yet. Search for new friends!</h1>
@@ -56,7 +69,6 @@ export default function FeedPosts() {
       </Loading>
     );
   } else if (error) {
-    
     return (
       <Loading>
         <h1>
@@ -66,7 +78,7 @@ export default function FeedPosts() {
       </Loading>
     );
   } else {
-    return <Posts posts={posts} userId={userId}/>
+    return <Posts posts={posts} />;
   }
 }
 
@@ -83,5 +95,3 @@ const Loading = styled.div`
     color: white;
   }
 `;
-
-
