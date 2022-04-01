@@ -31,8 +31,7 @@ export default function UserPage() {
       });
 
     const promise2 = axios.get(
-      "https://back-project-linkr.herokuapp.com/isfollowing",
-      body,
+      `https://back-project-linkr.herokuapp.com/isfollowing/${userId}/${id}`,
       config
     );
 
