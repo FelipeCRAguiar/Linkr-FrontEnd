@@ -8,7 +8,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
 export default function SearchBar() {
-  const { token } = useContext(AuthContext)
+  const { token, userId } = useContext(AuthContext)
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
@@ -16,7 +16,7 @@ export default function SearchBar() {
 
   useEffect(() => {
     if (username) {
-      const promise = axios.get(`https://back-project-linkr.herokuapp.com/username?name=${username}`, config)
+      const promise = axios.get(`https://back-project-linkr.herokuapp.com/username?name=${username}`, {userId: userId}, config)
       promise.then((response) => {
         setUserList(response.data)
       })
@@ -47,7 +47,7 @@ export default function SearchBar() {
         {userList.map((el) => (
           <UserListItem onClick={() => handleClick(el.id)} key={el.id}>
             <img src={el.image} alt='user picture' />
-            <h1>{el.username}</h1>
+            {el.followed? <h1>{el.username} <Following>• following</Following></h1> : <h1>{el.username}</h1>}
           </UserListItem>
         ))}
       </UserListContainer>
@@ -132,4 +132,12 @@ const UserListItem = styled.div`
     line-height: 23px;
     color: #515151;
   }
+`
+
+const Following = styled.span`
+  font-family: 'Lato';
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 23px;
+  color: #C5C5C5;
 `
