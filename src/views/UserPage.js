@@ -14,6 +14,7 @@ export default function UserPage() {
   const [isDisabled, setIsDisabled] = useState(false)
   const [following, setFollowing] = useState(false)
   const config = { headers: { Authorization: `Bearer ${token}` } };
+  const body = {followerId: userId, followedId: id}
 
   useEffect(() => {
     const promise = axios.get(`https://back-project-linkr.herokuapp.com/users/${id}`, config)
@@ -25,12 +26,20 @@ export default function UserPage() {
     promise.catch((error) => {
       console.log(error)
     })
-    console.log(user)
+    
+    const promise2 = axios.get('https://back-project-linkr.herokuapp.com/isfollowing', body, config)
+
+    promise2.then((response) => {
+      console.log(response.data)
+      setFollowing(response.data)
+    })
+    promise2.catch((error) => {
+      console.log(error)
+    })
   }, [])
   
   function FollowUnfollow() {
     setIsDisabled(true)
-    const body = {followerId: userId, followedId: id}
 
     if(following) {
       const promise = axios.delete('https://back-project-linkr.herokuapp.com/unfollow', body, config)
