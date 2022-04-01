@@ -94,6 +94,14 @@ const InputBox = styled.div`
     font-size: 25px;
     color: #C6C6C6;
   }
+
+  @media (max-width: 375px) {
+    width: 350px;
+
+    .searchIcon {
+      font-size: 19.15px;
+    }
+  }
 `
 
 const UserListContainer = styled.div`

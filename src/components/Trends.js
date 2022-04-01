@@ -68,6 +68,10 @@ const Container = styled.div`
         color: #ffffff;
         padding: 10px;
     }
+
+    @media (max-width: 375px) {
+        display: none;
+    }
 `
 
 const Tags = styled.div `

@@ -11,6 +11,7 @@ import EditPost from "./EditPost.js";
 import { likePost } from "../functions/likePost.js";
 import axios from "axios";
 import AuthContext from "../contexts/AuthContext.js";
+import ReactHashtag from "@mdnm/react-hashtag";
 
 export default function Posts(props) {
   const commentsArray = [];
@@ -110,7 +111,14 @@ export default function Posts(props) {
               <EditPost post={post} />
             </>
           ) : null}
-          <p>{post.text}</p>
+          <p><ReactHashtag
+              renderHashtag={(hashtagValue) => (
+                  <StyledHashtag>
+                      {hashtagValue}
+                  </StyledHashtag>
+              )}
+            >{post.text}
+          </ReactHashtag></p>
           <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
             <TextsLink>
               <h2>{post.title}</h2>
