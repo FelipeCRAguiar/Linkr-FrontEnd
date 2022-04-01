@@ -47,7 +47,7 @@ export default function UserPage() {
   function FollowUnfollow() {
     setIsDisabled(true);
 
-    if (following) {
+    if (following === true) {
       const promise = axios.delete(
         "https://back-project-linkr.herokuapp.com/unfollow",
         body,
@@ -61,8 +61,8 @@ export default function UserPage() {
         console.log(error);
         alert("Sua requisição encontrou um problema, favor tentar novamente");
       });
-    } else if (!following) {
-      const promise = axios.delete(
+    } else if (following === false) {
+      const promise = axios.post(
         "https://back-project-linkr.herokuapp.com/follow",
         body,
         config
@@ -89,13 +89,13 @@ export default function UserPage() {
             <span>{user.username}'s posts</span>
           </UserContainer>
           {following ? (
-            <FollowButton onClick={FollowUnfollow} disabled={isDisabled}>
-              Follow
-            </FollowButton>
-          ) : (
             <UnfollowButton onClick={FollowUnfollow} disabled={isDisabled}>
               Unfollow
             </UnfollowButton>
+          ) : (
+            <FollowButton onClick={FollowUnfollow} disabled={isDisabled}>
+              Follow
+            </FollowButton>
           )}
         </PageTitle>
         {newPostsAlert > 0 ? (
