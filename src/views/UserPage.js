@@ -18,6 +18,7 @@ export default function UserPage() {
   const [following, setFollowing] = useState(false);
   const config = { headers: { Authorization: `Bearer ${token}` } };
   const body = { followerId: userId, followedId: id };
+  const { trigger, setTrigger } = React.useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -83,6 +84,9 @@ export default function UserPage() {
   return (
     <Container>
       <Content>
+        {trigger && (
+          <LogoutButton onClick={() => navigate("/")}>Logout</LogoutButton>
+        )}
         <PageTitle>
           <UserContainer>
             <UserImage src={user.image} />
@@ -140,12 +144,16 @@ const PageTitle = styled.h2`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 375px) {
+    width: 100%;
+  }
 `;
 
 const Content = styled.div`
   width: 620px;
   margin-top: 78px;
-  @media (max-width: 413) {
+  @media (max-width: 375px) {
     width: 100%;
   }
 `;
@@ -155,6 +163,11 @@ const UserImage = styled.img`
   width: 50px;
 
   border-radius: 100px;
+
+  @media (max-width: 375px) {
+    height: 41px;
+    width: 41px;
+  }
 `;
 
 const FollowButton = styled.button`
@@ -192,6 +205,10 @@ const UserContainer = styled.div`
   span {
     margin-left: 18px;
   }
+
+  @media (max-width: 375px) {
+    font-size: 33px;
+  }
 `;
 
 const NewPostsAlertBox = styled.div`
@@ -214,4 +231,22 @@ const NewPostsAlertBox = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 17px;
+`;
+
+const LogoutButton = styled.div`
+  width: 150px;
+  height: 47px;
+  position: absolute;
+  background-color: #171717;
+  border-bottom-left-radius: 20px;
+  color: #ffffff;
+  font-family: "Lato";
+  font-size: 17px;
+
+  display: ${(props) => (props.triggered ? "none" : "inherit")};
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

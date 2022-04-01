@@ -11,6 +11,7 @@ import EditPost from "./EditPost.js";
 import { likePost } from "../functions/likePost.js";
 import axios from "axios";
 import AuthContext from "../contexts/AuthContext.js";
+import ReactHashtag from "@mdnm/react-hashtag";
 
 export default function Posts(props) {
   const commentsArray = [];
@@ -55,126 +56,140 @@ export default function Posts(props) {
       }
     }
     
-    return (
-        props.posts.map(post => (
-          <Container key={post.id}>
-            <ContainerPost>
-              <ProfilePicContainer>
-                <img
-                  alt="profile picture"
-                  src={post.image}
-                  onClick={() => {
-                    navigate(`/user/${post.userId}`);
-                  }}
-                />
-                {post.likes.find((like) => like.userId.toString() === props.userId) ? (
-                  <button disabled={isDisabled} onClick={() => likePost(post.id, post.likes, props.userId, props.setRender, props.render, setIsDisabled)}>
-                    <FaHeart 
-                      color={"#ef2929"}
-                      height="20px"
-                      width="20px"
-                    />
-                  </button>
-                ) : (
-                  <button disabled={isDisabled} onClick={() => likePost(post.id, post.likes, props.userId, props.setRender, props.render, setIsDisabled)}>
-                    <FaRegHeart
-                      color={"#FFFFFF"}
-                      height="20px"
-                      width="20px"
-                    />
-                  </button>
-                )}
-                <p>{post.likes.length} likes</p>
-                {/* <NamesBox className="div-names">
-                    <div className="triangle"></div>
-                    <div className="names-box">
-                        <p className="p-box-names">
-                           {post.likes.find(like => like.userId.toString() === props.userId) ? 'Você,' : ''} {post.likes[0].userId.toString() === props.userId ? post.likes[1].username : post.likes[0].username} e mais {post.likes.length - 2} 
-                        </p>
-                    </div>
-                </NamesBox> */}
-                <IoChatbubblesOutline
-                  onClick={() => showComments(post.id)}
-                  color={"#FFFFFF"}
-                  height="20px"
-                  width="20px"
-                  />
-                  <p>{post.comments && post.comments.length} comments</p>
-              </ProfilePicContainer>
-              <Content>
-                <h1
-                  onClick={() => {
-                    navigate(`/user/${post.userId}`);
-                  }}
-                >
-                  {post.username}
-                </h1>
-                {post.userId === props.userId ? (
-                  <>
-                    <DeletePost post={post} />
-                    <EditPost post={post} />
-                  </>
-                ) : null}
-                <p>{post.text}</p>
-                <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
-                  <TextsLink>
-                    <h2>{post.title}</h2>
-                    <h3>{post.description}</h3>
-                    <h4>{post.link}</h4>
-                  </TextsLink>
-                  <div className="img-div">
-                    <img alt="link image" src={post.linkImage} />
-                  </div>
-                </LinkDiv>
-              </Content>
-            </ContainerPost>
-            {commentsToShow.find(id => id === post.id) 
-            &&
-            <ContainerComments>
-            {post.comments && post.comments.filter(comments => comments.postId === post.id).map(comments => (           
-                    <CommentContainer>
-                      <ProfilePic>
-                        <img src={comments.image}/>
-                      </ProfilePic>
-                      <CommentBody>
-                        <CommentName>
-                          <h1>{comments.username}</h1>
-                          {post.userId === comments.userId && <h2>• post’s author</h2>}
-                        </CommentName>
-                        <p>{comments.comment}</p>
-                      </CommentBody>
-                    </CommentContainer> 
-            )) }
-                    <CommentInputContainer>
-                      <ProfilePic>
-                        <img src={post.image}/>
-                      </ProfilePic>
-                      <InputDiv>
-                        <Input
-                          className="input"
-                          type="text"
-                          placeholder="write a comment..."
-                          name="comment"
-                          value={comment[props.posts.indexOf(post)]}
-                          onChange={(e) => handleChange(e, props.posts.indexOf(post))}
-                        />
-                        <IoIosSend
-                          cssClasses="send"
-                          onClick={() => insertComment(post.id, props.userId, props.posts.indexOf(post), props.setRender, props.render)}
-                          color={"#FFFFFF"}
-                          height="15px"
-                          width="15px"
-                        />
-                      </InputDiv>
-                    </CommentInputContainer> 
-            </ContainerComments>
-            }
-          </Container>  
-            
-          ))
-    );
 
-          }
+  return props.posts.map((post) => (
+    <Container key={post.id}>
+      <ContainerPost>
+        <ProfilePicContainer>
+          <img
+            alt="profile picture"
+            src={post.image}
+            onClick={() => {
+              navigate(`/user/${post.userId}`);
+            }}
+          />
+          {post.likes.find(
+            (like) => like.userId.toString() === props.userId
+          ) ? (
+            <FaHeart
+              onClick={() => likePost(post.id, post.likes, props.userId)}
+              color={"#ef2929"}
+              height="20px"
+              width="20px"
+            />
+          ) : (
+            <FaRegHeart
+              onClick={() => likePost(post.id, post.likes, props.userId)}
+              color={"#FFFFFF"}
+              height="20px"
+              width="20px"
+            />
+          )}
+          <p>{post.likes.length} likes</p>
+          <NamesBox className="div-names">
+            <div className="triangle"></div>
+            <div className="names-box">
+              <p className="p-box-names">
+                {/* {post.likes.find(like => like.userId.toString() === props.userId) ? 'Você,' : ''} {post.likes[0].userId.toString() === props.userId ? post.likes[1].username : post.likes[0].username} e mais {post.likes.length - 2} */}
+              </p>
+            </div>
+          </NamesBox>
+          <IoChatbubblesOutline
+            onClick={() => showComments(post.id)}
+            color={"#FFFFFF"}
+            height="20px"
+            width="20px"
+          />
+          <p>{post.comments && post.comments.length} comments</p>
+        </ProfilePicContainer>
+        <Content>
+          <h1
+            onClick={() => {
+              navigate(`/user/${post.userId}`);
+            }}
+          >
+            {post.username}
+          </h1>
+          {post.userId === Number(userId) ? (
+            <>
+              <DeletePost post={post} />
+              <EditPost post={post} />
+            </>
+          ) : null}
+          <p><ReactHashtag
+              renderHashtag={(hashtagValue) => (
+                  <StyledHashtag>
+                      {hashtagValue}
+                  </StyledHashtag>
+              )}
+            >{post.text}
+          </ReactHashtag></p>
+          <LinkDiv className="div-link" onClick={() => window.open(post.link)}>
+            <TextsLink>
+              <h2>{post.title}</h2>
+              <h3>{post.description}</h3>
+              <h4>{post.link}</h4>
+            </TextsLink>
+            <div>
+              <img alt="link image" src={post.linkImage} />
+            </div>
+          </LinkDiv>
+        </Content>
+      </ContainerPost>
+      {commentsToShow.find((id) => id === post.id) && (
+        <ContainerComments>
+          {post.comments &&
+            post.comments
+              .filter((comments) => comments.postId === post.id)
+              .map((comments) => (
+                <CommentContainer>
+                  <ProfilePic>
+                    <img src={comments.image} />
+                  </ProfilePic>
+                  <CommentBody>
+                    <CommentName>
+                      <h1>{comments.username}</h1>
+                      {post.userId === comments.userId && (
+                        <h2>• post’s author</h2>
+                      )}
+                    </CommentName>
+                    <p>{comments.comment}</p>
+                  </CommentBody>
+                </CommentContainer>
+              ))}
+          <CommentInputContainer>
+            <ProfilePic>
+              <img src={post.image} />
+            </ProfilePic>
+            <InputDiv>
+              <Input
+                className="input"
+                type="text"
+                placeholder="write a comment..."
+                name="comment"
+                value={comment[props.posts.indexOf(post)]}
+                onChange={(e) => handleChange(e, props.posts.indexOf(post))}
+              />
+              <IoIosSend
+                cssClasses="send"
+                onClick={() =>
+                  insertComment(
+                    post.id,
+                    props.userId,
+                    props.posts.indexOf(post)
+                  )
+                }
+                color={"#FFFFFF"}
+                height="15px"
+                width="15px"
+              />
+            </InputDiv>
+          </CommentInputContainer>
+        </ContainerComments>
+      )}
+    </Container>
+  ));
+}
 
 const Container = styled.div`
   display: flex;

@@ -69,6 +69,7 @@ const Container = styled.div`
         padding: 10px;
     }
 
+
     @media (max-width: 1000px) {
     display: none;
   }
