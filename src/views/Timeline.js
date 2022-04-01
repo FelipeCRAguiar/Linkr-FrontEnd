@@ -51,7 +51,7 @@ const PageTitle = styled.h2`
 const Content = styled.div`
   width: 620px;
   margin-top: 78px;
-  @media (max-width: 413) {
+  @media (max-width: 620px) {
     width: 100%;
   }
 `;

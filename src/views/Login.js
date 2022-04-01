@@ -22,7 +22,7 @@ export default function Login() {
     setIsDisabled(true);
     navigate("/");
 
-    const promise = axios.post("https://back-project-linkr.herokuapp.com/login", formData);
+    const promise = axios.post("http://localhost:4000/login", formData);
     promise.then((response) => {
       setIsDisabled(false);
       navigate("/timeline");

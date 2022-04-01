@@ -20,6 +20,7 @@ export default function Posts(props) {
     const navigate = useNavigate();
     const [comment, setComment] = useState(commentsArray);
     const [commentsToShow, setCommentsToShow] = useState([]);
+    const [isDisabled, setIsDisabled] = useState(false);
     
 
     function handleChange(e, index) {
@@ -27,7 +28,7 @@ export default function Posts(props) {
       setComment(commentsArray);
     }
     
-    function insertComment(postId, userId, index) {
+    function insertComment(postId, userId, index, setRender, render) {
 
       const promise = axios.post(
         `http://localhost:4000/comment/${postId}/${userId}`, {comment: comment[index]}
@@ -35,7 +36,7 @@ export default function Posts(props) {
 
       promise.then(() => {
         setComment(clearCommentsArray);
-        console.log('chegou aqui')
+        setRender(!render)
       });
       promise.catch((error) => {
         console.log(error);
@@ -67,7 +68,7 @@ export default function Posts(props) {
                   }}
                 />
                 {post.likes.find((like) => like.userId.toString() === props.userId) ? (
-                  <button onClick={() => likePost(post.id, post.likes, props.userId, props.setRender, props.render)}>
+                  <button disabled={isDisabled} onClick={() => likePost(post.id, post.likes, props.userId, props.setRender, props.render, setIsDisabled)}>
                     <FaHeart 
                       color={"#ef2929"}
                       height="20px"
@@ -75,7 +76,7 @@ export default function Posts(props) {
                     />
                   </button>
                 ) : (
-                  <button onClick={() => likePost(post.id, post.likes, props.userId, props.setRender, props.render)}>
+                  <button disabled={isDisabled} onClick={() => likePost(post.id, post.likes, props.userId, props.setRender, props.render, setIsDisabled)}>
                     <FaRegHeart
                       color={"#FFFFFF"}
                       height="20px"
@@ -84,14 +85,14 @@ export default function Posts(props) {
                   </button>
                 )}
                 <p>{post.likes.length} likes</p>
-                <NamesBox className="div-names">
+                {/* <NamesBox className="div-names">
                     <div className="triangle"></div>
                     <div className="names-box">
                         <p className="p-box-names">
-                           {/* {post.likes.find(like => like.userId.toString() === props.userId) ? 'Você,' : ''} {post.likes[0].userId.toString() === props.userId ? post.likes[1].username : post.likes[0].username} e mais {post.likes.length - 2} */}
+                           {post.likes.find(like => like.userId.toString() === props.userId) ? 'Você,' : ''} {post.likes[0].userId.toString() === props.userId ? post.likes[1].username : post.likes[0].username} e mais {post.likes.length - 2} 
                         </p>
                     </div>
-                </NamesBox>
+                </NamesBox> */}
                 <IoChatbubblesOutline
                   onClick={() => showComments(post.id)}
                   color={"#FFFFFF"}
@@ -121,7 +122,7 @@ export default function Posts(props) {
                     <h3>{post.description}</h3>
                     <h4>{post.link}</h4>
                   </TextsLink>
-                  <div>
+                  <div className="img-div">
                     <img alt="link image" src={post.linkImage} />
                   </div>
                 </LinkDiv>
@@ -159,7 +160,7 @@ export default function Posts(props) {
                         />
                         <IoIosSend
                           cssClasses="send"
-                          onClick={() => insertComment(post.id, props.userId, props.posts.indexOf(post))}
+                          onClick={() => insertComment(post.id, props.userId, props.posts.indexOf(post), props.setRender, props.render)}
                           color={"#FFFFFF"}
                           height="15px"
                           width="15px"
@@ -183,6 +184,10 @@ export default function Posts(props) {
     gap: 30px;
 
     margin-bottom: 50px;
+
+    @media (max-width: 620px) {
+    width: 100%;
+  }
   `;
 
   const Input = styled.input`
@@ -244,6 +249,10 @@ export default function Posts(props) {
     padding-bottom: 30px;
 
     background-color: #1E1E1E;
+
+    @media (max-width: 620px) {
+    width: 100%;
+  }
   `;
 
   const CommentContainer = styled.div`
@@ -334,6 +343,12 @@ export default function Posts(props) {
   p:hover + .div-names{
       display: flex;
   }
+
+  @media (max-width: 620px) {
+    width: 100%;
+
+    border-radius: 0px;
+  }
 `;
 
 const NamesBox = styled.div`
@@ -378,7 +393,9 @@ const NamesBox = styled.div`
 `;
 
 const ProfilePicContainer = styled.div`
-  width: 86px;
+  width: 15%;
+
+  padding: 0px, 10px;
 
   display: flex;
   flex-direction: column;
@@ -417,11 +434,14 @@ const ProfilePicContainer = styled.div`
     cursor: pointer;
   }
 
-  
+  @media (max-width: 400px) {
+    width: 20%;
+  }
 `;
 
 const Content = styled.div`
   height: 100%;
+  width: 85%;
 
   display: flex;
   flex-direction: column;
@@ -431,6 +451,7 @@ const Content = styled.div`
 
   gap: 7px;
   padding: 18px 0;
+  padding-right: 20px;
 
   h1 {
     font-family: "Lato";
@@ -502,8 +523,7 @@ const TextsLink = styled.div`
 const LinkDiv = styled.div`
   box-sizing: border-box;
 
-  width: 503px;
-  height: 155px;
+  width: 100%;
 
   border: solid 1px #4d4d4d;
   border-radius: 12px;
@@ -519,6 +539,10 @@ const LinkDiv = styled.div`
     border-radius: 0 12px 12px 0;
 
     margin-top: 2px;
+  }
+
+  .img-div{
+    height: 100%;
   }
 `;
 

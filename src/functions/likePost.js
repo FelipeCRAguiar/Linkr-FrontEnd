@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export function likePost(postId, likes, userId, setRender, render) {
+export function likePost(postId, likes, userId, setRender, render, setIsDisabled) {
     const isLiked = likes.find((like) => like.userId.toString() === userId);
+    setIsDisabled(true);
 
     if (isLiked) {
       const promise = axios.delete(`
